@@ -36,7 +36,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             className={`appearance-none relative block w-full px-3 py-3 ${rightIcon ? "pr-10" : ""} border ${
               error ? "border-red-500" : "border-gray-300"
-            } placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent ${className}`}
+            } placeholder-gray-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent ${className}`}
             aria-invalid={!!error}
             aria-describedby={
               error ? `${props.id || props.name}-error` : undefined

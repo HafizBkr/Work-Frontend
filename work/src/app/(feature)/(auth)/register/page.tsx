@@ -1,230 +1,286 @@
-// "use client";
+"use client";
 
-// import React, { useState } from "react";
-// import Link from "next/link";
-// import { useRouter } from "next/navigation";
-// import { Input, Button, AuthLayout } from "../components";
+import React, { useState } from "react";
+import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
+import Input from "../../../components/ui/Input";
+import Button from "../../../components/ui/Button";
 
-// interface RegisterFormData {
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   password: string;
-//   confirmPassword: string;
-// }
+interface RegisterFormData {
+  email: string;
+  fullname: string;
+  avatar: string;
+  password: string;
+  confirmPassword: string;
+}
 
-// interface RegisterFormErrors {
-//   firstName?: string;
-//   lastName?: string;
-//   email?: string;
-//   password?: string;
-//   confirmPassword?: string;
-// }
+interface RegisterFormErrors {
+  email?: string;
+  password?: string;
+  fullname?: string;
+  confirmPassword?: string;
+}
 
-// const RegisterPage: React.FC = () => {
-//   const router = useRouter();
-//   const [formData, setFormData] = useState<RegisterFormData>({
-//     firstName: "",
-//     lastName: "",
-//     email: "",
-//     password: "",
-//     confirmPassword: "",
-//   });
-//   const [errors, setErrors] = useState<RegisterFormErrors>({});
+const RegisterPage: React.FC = () => {
+  const [formData, setFormData] = useState<RegisterFormData>({
+    email: "",
+    fullname: "",
+    avatar: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState<RegisterFormErrors>({});
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+  const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
 
-//   const validateForm = (): boolean => {
-//     const newErrors: RegisterFormErrors = {};
+  const validateForm = (): boolean => {
+    const newErrors: RegisterFormErrors = {};
 
-//     if (!formData.firstName.trim()) {
-//       newErrors.firstName = "Le prénom est requis";
-//     }
+    if (!formData.fullname.trim()) {
+      newErrors.fullname = "Le nom complet est requis";
+    }
 
-//     if (!formData.lastName.trim()) {
-//       newErrors.lastName = "Le nom est requis";
-//     }
+    if (!formData.email) {
+      newErrors.email = "L'email est requis";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "L'email n'est pas valide";
+    }
 
-//     if (!formData.email) {
-//       newErrors.email = "L'email est requis";
-//     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-//       newErrors.email = "L'email n'est pas valide";
-//     }
+    if (!formData.password) {
+      newErrors.password = "Le mot de passe est requis";
+    } else if (formData.password.length < 6) {
+      newErrors.password =
+        "Le mot de passe doit contenir au moins 6 caractères";
+    }
 
-//     if (!formData.password) {
-//       newErrors.password = "Le mot de passe est requis";
-//     } else if (formData.password.length < 8) {
-//       newErrors.password =
-//         "Le mot de passe doit contenir au moins 8 caractères";
-//     } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-//       newErrors.password =
-//         "Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre";
-//     }
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "La confirmation du mot de passe est requise";
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Les mots de passe ne correspondent pas";
+    }
 
-//     if (!formData.confirmPassword) {
-//       newErrors.confirmPassword = "Veuillez confirmer votre mot de passe";
-//     } else if (formData.password !== formData.confirmPassword) {
-//       newErrors.confirmPassword = "Les mots de passe ne correspondent pas";
-//     }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-//     setErrors(newErrors);
-//     return Object.keys(newErrors).length === 0;
-//   };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
-//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
+    if (errors[name as keyof RegisterFormErrors]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: undefined,
+      }));
+    }
+  };
 
-//     // Clear error when user starts typing
-//     if (errors[name as keyof RegisterFormErrors]) {
-//       setErrors((prev) => ({
-//         ...prev,
-//         [name]: undefined,
-//       }));
-//     }
-//   };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
 
-//     if (!validateForm()) {
-//       return;
-//     }
+    if (!acceptedTerms) {
+      alert(
+        "Vous devez accepter la politique de confidentialité et les conditions de service",
+      );
+      return;
+    }
 
-//     // TODO: Integration will be handled by custom hooks
-//     console.log("Register form data:", {
-//       firstName: formData.firstName,
-//       lastName: formData.lastName,
-//       email: formData.email,
-//       password: formData.password,
-//     });
+    console.log("Register form data:", formData);
+  };
 
-//     // For now, just navigate to OTP verification
-//     router.push("/feature/auth/verify-otp");
-//   };
+  return (
+    <div className="min-h-screen flex">
+      {/* Left Side - Form */}
+      <div className="w-1/2 bg-white flex flex-col">
+        {/* Header */}
+        <header className="flex justify-between items-center px-6 py-4">
+          <div className="flex items-center">
+            <div className="text-2xl font-bold text-purple-600 select-none">
+              Work
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="text-gray-700 select-none">Français</div>
+            <svg
+              className="w-4 h-4 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+        </header>
 
-//   return (
-//     <AuthLayout
-//       title="Créer un compte"
-//       subtitle="Rejoignez-nous dès aujourd'hui"
-//     >
-//       <form onSubmit={handleSubmit} className="space-y-6">
-//         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-//           <Input
-//             label="Prénom"
-//             type="text"
-//             name="firstName"
-//             value={formData.firstName}
-//             onChange={handleInputChange}
-//             error={errors.firstName}
-//             placeholder="Jean"
-//             required
-//           />
+        {/* Form Content */}
+        <div className="flex-1 flex items-center justify-center px-8">
+          <div className="max-w-md w-full space-y-8">
+            {/* Title */}
+            <div>
+              <div className="text-3xl font-semibold text-gray-900 mb-2 select-none">
+                S&apos;inscrire
+              </div>
+              <div className="text-gray-600 select-none">
+                Préparez votre compte pour rejoindre vos coéquipiers !
+              </div>
+            </div>
 
-//           <Input
-//             label="Nom"
-//             type="text"
-//             name="lastName"
-//             value={formData.lastName}
-//             onChange={handleInputChange}
-//             error={errors.lastName}
-//             placeholder="Dupont"
-//             required
-//           />
-//         </div>
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">OU</span>
+              </div>
+            </div>
 
-//         <Input
-//           label="Adresse email"
-//           type="email"
-//           name="email"
-//           value={formData.email}
-//           onChange={handleInputChange}
-//           error={errors.email}
-//           placeholder="jean.dupont@email.com"
-//           required
-//         />
+            {/* Registration Form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Input
+                id="fullname"
+                name="fullname"
+                type="text"
+                label="Nom complet"
+                required
+                value={formData.fullname}
+                onChange={handleInputChange}
+                error={errors.fullname}
+                placeholder="Entrez votre nom complet"
+                autoComplete="name"
+              />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                label="E-mail"
+                required
+                value={formData.email}
+                onChange={handleInputChange}
+                error={errors.email}
+                placeholder="Entrez votre e-mail"
+                autoComplete="email"
+              />
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                label="Mot de passe"
+                required
+                value={formData.password}
+                onChange={handleInputChange}
+                error={errors.password}
+                placeholder="Entrez votre mot de passe"
+                autoComplete="new-password"
+                rightIcon={
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <Eye className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <EyeOff className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
+                }
+              />
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                label="Confirmez le mot de passe"
+                required
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                error={errors.confirmPassword}
+                placeholder="Saisissez à nouveau votre mot de passe"
+                autoComplete="new-password"
+                rightIcon={
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? (
+                      <Eye className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <EyeOff className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
+                }
+              />
 
-//         <Input
-//           label="Mot de passe"
-//           type="password"
-//           name="password"
-//           value={formData.password}
-//           onChange={handleInputChange}
-//           error={errors.password}
-//           placeholder="••••••••"
-//           helperText="Au moins 8 caractères avec une majuscule, une minuscule et un chiffre"
-//           required
-//         />
+              {/* Terms and Conditions */}
+              <div className="flex items-start space-x-2">
+                <input
+                  id="terms"
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                />
+                <label htmlFor="terms" className="text-sm text-gray-600">
+                  J&apos;ai lu et j&apos;accepte la{" "}
+                  <Link
+                    href="/privacy-policy"
+                    className="text-purple-600 hover:text-purple-500"
+                  >
+                    politique de confidentialité
+                  </Link>{" "}
+                  et les{" "}
+                  <Link
+                    href="/terms-of-service"
+                    className="text-purple-600 hover:text-purple-500"
+                  >
+                    conditions de service
+                  </Link>
+                  .
+                </label>
+              </div>
 
-//         <Input
-//           label="Confirmer le mot de passe"
-//           type="password"
-//           name="confirmPassword"
-//           value={formData.confirmPassword}
-//           onChange={handleInputChange}
-//           error={errors.confirmPassword}
-//           placeholder="••••••••"
-//           required
-//         />
+              <Button type="submit" fullWidth>
+                S&apos;inscrire
+              </Button>
+            </form>
 
-//         <div className="flex items-start">
-//           <div className="flex items-center h-5">
-//             <input
-//               id="terms"
-//               name="terms"
-//               type="checkbox"
-//               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-//               required
-//             />
-//           </div>
-//           <div className="ml-3 text-sm">
-//             <label htmlFor="terms" className="text-gray-600">
-//               J accepte les{" "}
-//               <Link
-//                 href="/terms"
-//                 className="text-blue-600 hover:text-blue-500 hover:underline"
-//               >
-//                 conditions d utilisation
-//               </Link>{" "}
-//               et la{" "}
-//               <Link
-//                 href="/privacy"
-//                 className="text-blue-600 hover:text-blue-500 hover:underline"
-//               >
-//                 politique de confidentialité
-//               </Link>
-//             </label>
-//           </div>
-//         </div>
+            {/* Login Link */}
+            <div className="text-center">
+              <span className="text-gray-600 text-sm select-none">
+                Vous avez déjà un compte ?{" "}
+                <Link
+                  href="/signin"
+                  className="text-purple-600 hover:text-purple-500 select-none"
+                >
+                  Se connecter
+                </Link>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-//         <Button type="submit" fullWidth>
-//           Créer mon compte
-//         </Button>
+      {/* Right Side - Purple Background */}
+      <div className="w-1/2 bg-gradient-to-br from-purple-500 to-purple-700">
+        {/* Espace pour votre capture d'écran */}
+      </div>
+    </div>
+  );
+};
 
-//         <div className="relative">
-//           <div className="absolute inset-0 flex items-center">
-//             <div className="w-full border-t border-gray-300" />
-//           </div>
-//           <div className="relative flex justify-center text-sm">
-//             <span className="px-2 bg-white text-gray-500">Ou</span>
-//           </div>
-//         </div>
-
-//         <div className="text-center">
-//           <span className="text-sm text-gray-600">
-//             Vous avez déjà un compte ?{" "}
-//             <Link
-//               href="/feature/auth/login"
-//               className="font-medium text-blue-600 hover:text-blue-500 hover:underline"
-//             >
-//               Se connecter
-//             </Link>
-//           </span>
-//         </div>
-//       </form>
-//     </AuthLayout>
-//   );
-// };
-
-// export default RegisterPage;
+export default RegisterPage;

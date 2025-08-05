@@ -1,5 +1,5 @@
 // Auth Pages
-export { default as LoginPage } from "./login/page";
+export { default as LoginPage } from "./signin/page";
 // export { default as RegisterPage } from './register/page';
 // export { default as VerifyOtpPage } from './verify-otp/page';
 // export { default as ForgotPasswordPage } from './forgot-password/page';

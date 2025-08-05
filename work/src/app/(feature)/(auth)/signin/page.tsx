@@ -155,9 +155,9 @@ const LoginPage: React.FC = () => {
                       onClick={togglePasswordVisibility}
                     >
                       {showPassword ? (
-                        <EyeOff className="h-5 w-5 text-gray-400" />
-                      ) : (
                         <Eye className="h-5 w-5 text-gray-400" />
+                      ) : (
+                        <EyeOff className="h-5 w-5 text-gray-400" />
                       )}
                     </button>
                   }
@@ -167,7 +167,7 @@ const LoginPage: React.FC = () => {
               {/* Forgot Password Link */}
               <div className="text-left">
                 <Link
-                  href="/feature/auth/forgot-password"
+                  href="/forgot-password"
                   className="text-purple-600 hover:text-purple-500 text-sm select-none"
                 >
                   Mot de passe oublié ?
@@ -188,7 +188,7 @@ const LoginPage: React.FC = () => {
             <span className="text-gray-600 text-sm select-none">
               Nouveau sur notre plateforme ?{" "}
               <Link
-                href="/feature/auth/register"
+                href="/register"
                 className="text-purple-600 hover:text-purple-500 select-none"
               >
                 Créer un compte
