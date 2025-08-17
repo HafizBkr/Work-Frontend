@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { UserPopup } from "./userDashDropdown";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -10,6 +11,7 @@ const Sidebar = () => {
   );
   const popupRef = useRef<HTMLDivElement>(null);
   const userSectionRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const mainMenuItems = [
     {
@@ -209,7 +211,7 @@ const Sidebar = () => {
   };
 
   const handleSettings = () => {
-    console.log("Settings");
+    router.push("/settings/general");
   };
 
   const handleStatusChange = (status: "active" | "inactive" | "away") => {

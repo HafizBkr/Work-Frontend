@@ -1,13 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { ChevronDown, Settings, LogOut, ChevronRight } from "lucide-react";
-
-interface UserDropdownProps {
-  userName: string;
-  userEmail: string;
-  userAvatar?: string;
-  onLogout?: () => void;
-  onSettings?: () => void;
-}
+import React, { useState, useEffect } from "react";
+import { ChevronRight } from "lucide-react";
 
 interface UserPopupProps {
   userName: string;
@@ -62,7 +54,7 @@ const UserPopup: React.FC<UserPopupProps> = ({
   };
 
   return (
-    <div className="absolute left-full top-0 ml-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+    <div className="absolute left-full top-0 ml-2 w-70 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
       {/* User Header */}
       <div className="px-4 py-3 border-b border-gray-200">
         <div className="flex items-center space-x-3">
@@ -208,27 +200,6 @@ const UserPopup: React.FC<UserPopupProps> = ({
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  );
-};
-
-// Composant de démonstration
-const App = () => {
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="relative">
-        <UserPopup
-          userName="Hafiz BOUKARI"
-          userEmail="hafiznovus@gmail.com"
-          onSettings={() => console.log("Settings clicked")}
-          onLogout={() => console.log("Logout clicked")}
-          onStatusChange={(status) => console.log("Status changed to:", status)}
-          organizations={[
-            { name: "al3", code: "al3" },
-            { name: "Hafiz", code: "hafiz" },
-          ]}
-        />
       </div>
     </div>
   );
