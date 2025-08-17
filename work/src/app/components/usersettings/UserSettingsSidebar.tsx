@@ -11,47 +11,49 @@ import {
   ChevronLeft,
 } from "lucide-react";
 
-const UserSettingsSidebar = () => {
-  const menuItems = [
-    {
-      icon: User,
-      label: "Profil",
-      isActive: true,
-    },
-    {
-      icon: FileText,
-      label: "Informations",
-      isActive: false,
-    },
-    {
-      icon: Lock,
-      label: "Mot De Passe",
-      isActive: false,
-    },
-    {
-      icon: Settings,
-      label: "Paramètres",
-      isActive: false,
-    },
-    {
-      icon: Shield,
-      label: "Sécurité",
-      isActive: false,
-    },
-    {
-      icon: Bell,
-      label: "Notifications",
-      isActive: false,
-    },
-  ];
+type SettingsSection =
+  | "profil"
+  | "informations"
+  | "motdepasse"
+  | "parametres"
+  | "securite"
+  | "notifications";
 
+interface UserSettingsSidebarProps {
+  selectedSection: SettingsSection;
+  onSelectSection: (section: SettingsSection) => void;
+}
+
+const menuItems: {
+  icon: React.ElementType;
+  label: string;
+  section: SettingsSection;
+}[] = [
+  { icon: User, label: "Profil", section: "profil" },
+  { icon: FileText, label: "Informations", section: "informations" },
+  { icon: Lock, label: "Mot De Passe", section: "motdepasse" },
+  { icon: Settings, label: "Paramètres", section: "parametres" },
+  { icon: Shield, label: "Sécurité", section: "securite" },
+  { icon: Bell, label: "Notifications", section: "notifications" },
+];
+
+const UserSettingsSidebar: React.FC<UserSettingsSidebarProps> = ({
+  selectedSection,
+  onSelectSection,
+}) => {
   return (
     <div className="h-full flex flex-col bg-gray-50">
       {/* Header with back button and title */}
       <div className="px-6 mt-10 border-b border-gray-100">
         <div className="flex items-center gap-3 mb-4 justify-end">
           <div className="space-y-2 w-full max-w-[220px]">
-            <button className="p-1 hover:bg-gray-100 rounded-lg transition-colors">
+            <button
+              className="p-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors"
+              onClick={() => {
+                window.location.href = "/dashboard";
+              }}
+              title="Retour à l'accueil"
+            >
               <ChevronLeft className="w-5 h-5 text-gray-600" />
             </button>
             <p className="text-sm  text-black uppercase tracking-wide font-medium mt-9">
@@ -65,20 +67,22 @@ const UserSettingsSidebar = () => {
       <nav className="flex-1 px-6 py-4">
         <div className="flex justify-end">
           <ul className="space-y-3 w-full max-w-[220px]">
-            {menuItems.map((item, index) => {
+            {menuItems.map((item) => {
               const IconComponent = item.icon;
+              const isActive = selectedSection === item.section;
               return (
-                <li key={index}>
+                <li key={item.section}>
                   <button
                     className={`w-full flex items-center gap-4 px-4 py-4 rounded-lg text-left transition-colors ${
-                      item.isActive
+                      isActive
                         ? "bg-gray-100 text-gray-900 font-medium"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}
+                    onClick={() => onSelectSection(item.section)}
                   >
                     <IconComponent
                       className={`w-5 h-5 ${
-                        item.isActive ? "text-gray-700" : "text-gray-500"
+                        isActive ? "text-gray-700" : "text-gray-500"
                       }`}
                     />
                     <span className="text-base font-medium">{item.label}</span>
