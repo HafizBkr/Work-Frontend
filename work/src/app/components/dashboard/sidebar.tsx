@@ -2,16 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import { UserPopup } from "./userDashDropdown";
 import { useRouter } from "next/navigation";
 
-const Sidebar = () => {
+interface SidebarProps {
+  selectedSection: string;
+  onSelectSection: (section: string) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
+  selectedSection,
+  onSelectSection,
+}) => {
+  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeRoute, setActiveRoute] = useState("/dashboard");
   const [showUserPopup, setShowUserPopup] = useState(false);
   const [userStatus, setUserStatus] = useState<"active" | "inactive" | "away">(
     "active",
   );
   const popupRef = useRef<HTMLDivElement>(null);
   const userSectionRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   const mainMenuItems = [
     {
@@ -168,16 +175,7 @@ const Sidebar = () => {
       ),
     },
   ];
-  const isActiveRoute = (href: string) => {
-    if (href === "/dashboard") {
-      return activeRoute === "/dashboard";
-    }
-    return activeRoute.startsWith(href);
-  };
-
-  const handleMenuClick = (href: string) => {
-    setActiveRoute(href);
-  };
+  // Plus besoin de isActiveRoute ni handleMenuClick, tout est géré par selectedSection et onSelectSection
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -232,9 +230,9 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative bg-gray-50 ">
       <div
-        className={`${isCollapsed ? "w-16" : "w-64"} bg-white border-r border-gray-200 h-screen flex flex-col transition-all duration-300 ease-in-out relative`}
+        className={`${isCollapsed ? "w-16" : "w-64"} bg-gray-50 border-r border-gray-200 h-screen flex flex-col transition-all duration-300 ease-in-out relative`}
       >
         {/* Toggle Button */}
         <button
@@ -261,7 +259,6 @@ const Sidebar = () => {
             </svg>
           )}
         </button>
-
         {/* Logo */}
         <div className="p-6 border-b border-gray-200">
           <div
@@ -270,7 +267,6 @@ const Sidebar = () => {
             {isCollapsed ? "W" : "Work"}
           </div>
         </div>
-
         {/* User Section */}
         <div
           ref={userSectionRef}
@@ -318,55 +314,162 @@ const Sidebar = () => {
             </div>
           )}
         </div>
-
         {/* Main Navigation */}
-        <nav className="flex-1 px-4 space-y-1 overflow-y-auto overflow-x-hidden py-4">
+        <nav className="flex flex-col gap-2 mt-4 px-4">
           {mainMenuItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => handleMenuClick(item.href)}
-              className={`w-full flex items-center cursor-pointer ${isCollapsed ? "justify-center px-2" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 ${
-                isActiveRoute(item.href)
-                  ? "bg-purple-50 text-purple-700"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-              }`}
-              title={isCollapsed ? item.label : undefined}
+              onClick={() => onSelectSection(item.id)}
+              className={`flex items-center transition-all duration-300
+                ${isCollapsed ? "justify-center px-0" : "gap-3 px-4"}
+                py-2 rounded-lg text-base font-medium
+                ${
+                  selectedSection === item.id
+                    ? "bg-white border border-gray-200 text-gray-900 shadow"
+                    : "text-gray-500 hover:bg-gray-100"
+                }
+              `}
+              title={item.label}
             >
               <span
-                className={`flex-shrink-0 ${
-                  isActiveRoute(item.href) ? "text-purple-600" : "text-gray-400"
-                }`}
+                className={
+                  selectedSection === item.id
+                    ? "text-gray-900"
+                    : "text-gray-500"
+                }
               >
                 {item.icon}
               </span>
-              {!isCollapsed && <span className="truncate">{item.label}</span>}
+              <span
+                className={`transition-all duration-300 whitespace-nowrap
+                  ${isCollapsed ? "opacity-0 w-0 max-w-0 overflow-hidden" : "opacity-100 w-auto max-w-xs ml-2"}
+                `}
+                style={{ minWidth: isCollapsed ? 0 : undefined }}
+              >
+                {item.label}
+              </span>
             </button>
           ))}
         </nav>
-
-        {/* Bottom Navigation */}
-        <div className="px-4 py-4 border-t border-gray-200 space-y-1">
-          {bottomMenuItems.map((item) => (
+        {/* Bottom Navigation collé en bas avec espace */}
+        <div className="mt-auto">
+          <div className="border-t border-gray-200 px-4 py-4 space-y-1 bg-white mt-auto">
             <button
-              key={item.id}
-              onClick={() => handleMenuClick(item.href)}
-              className={`w-full flex items-center cursor-pointer ${isCollapsed ? "justify-center px-2" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 ${
-                isActiveRoute(item.href)
+              onClick={() => onSelectSection("notifications")}
+              className={`w-full flex items-center transition-all duration-300 ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
+                selectedSection === "notifications"
                   ? "bg-purple-50 text-purple-700"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
               }`}
-              title={isCollapsed ? item.label : undefined}
+              title="Notifications"
             >
-              <span
-                className={`flex-shrink-0 ${
-                  isActiveRoute(item.href) ? "text-purple-600" : "text-gray-400"
-                }`}
+              <svg
+                className="w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                {item.icon}
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+              <span
+                className={`transition-all duration-300 whitespace-nowrap
+                  ${isCollapsed ? "opacity-0 w-0 max-w-0 overflow-hidden" : "opacity-100 w-auto max-w-xs ml-2"}
+                `}
+                style={{ minWidth: isCollapsed ? 0 : undefined }}
+              >
+                Notifications
               </span>
-              {!isCollapsed && <span className="truncate">{item.label}</span>}
             </button>
-          ))}
+            <button
+              onClick={() => onSelectSection("integrations")}
+              className={`w-full flex items-center transition-all duration-300 ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
+                selectedSection === "integrations"
+                  ? "bg-purple-50 text-purple-700"
+                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
+              title="Intégrations"
+            >
+              <svg
+                className="w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1m15.5-6.5l-4.24 4.24M7.76 16.24l-4.24 4.24m0-16.48l4.24 4.24m8.48 8.48l4.24 4.24" />
+              </svg>
+              <span
+                className={`transition-all duration-300 whitespace-nowrap
+                  ${isCollapsed ? "opacity-0 w-0 max-w-0 overflow-hidden" : "opacity-100 w-auto max-w-xs ml-2"}
+                `}
+                style={{ minWidth: isCollapsed ? 0 : undefined }}
+              >
+                Intégrations
+              </span>
+            </button>
+            <button
+              onClick={() => onSelectSection("workspace-settings")}
+              className={`w-full flex items-center transition-all duration-300 ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
+                selectedSection === "workspace-settings"
+                  ? "bg-purple-50 text-purple-700"
+                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
+              title="Paramètres du workspace"
+            >
+              <svg
+                className="w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M6.343 17.657l-1.414 1.414m12.728 0l-1.414-1.414M6.343 6.343L4.929 4.929" />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              </svg>
+              <span
+                className={`transition-all duration-300 whitespace-nowrap
+                  ${isCollapsed ? "opacity-0 w-0 max-w-0 overflow-hidden" : "opacity-100 w-auto max-w-xs ml-2"}
+                `}
+                style={{ minWidth: isCollapsed ? 0 : undefined }}
+              >
+                Paramètres du workspace
+              </span>
+            </button>
+            <button
+              onClick={() => onSelectSection("help")}
+              className={`w-full flex items-center transition-all duration-300 ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
+                selectedSection === "help"
+                  ? "bg-purple-50 text-purple-700"
+                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
+              title="Centre D'aide"
+            >
+              <svg
+                className="w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              <span
+                className={`transition-all duration-300 whitespace-nowrap
+                  ${isCollapsed ? "opacity-0 w-0 max-w-0 overflow-hidden" : "opacity-100 w-auto max-w-xs ml-2"}
+                `}
+                style={{ minWidth: isCollapsed ? 0 : undefined }}
+              >
+                Centre D&apos;aide
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

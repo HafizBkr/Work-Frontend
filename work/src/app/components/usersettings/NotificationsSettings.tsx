@@ -38,7 +38,7 @@ const NotificationsSettings: React.FC = () => {
               >
                 <option value="jamais">Jamais</option>
                 <option value="1h">1 heure</option>
-                <option value="aujourdhui">Aujourd'hui</option>
+                <option value="aujourdhui">Aujourdhui</option>
                 <option value="toujours">Toujours</option>
               </select>
               <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
