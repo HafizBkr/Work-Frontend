@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import { UserPopup } from "./userDashDropdown";
 import { useRouter } from "next/navigation";
@@ -319,7 +320,9 @@ const Sidebar: React.FC<SidebarProps> = ({
           {mainMenuItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => onSelectSection(item.id)}
+              onClick={() => {
+                router.push(item.href);
+              }}
               className={`flex items-center transition-all duration-300
                 ${isCollapsed ? "justify-center px-0" : "gap-3 px-4"}
                 py-2 rounded-lg text-base font-medium

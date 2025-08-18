@@ -1,14 +1,24 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const recentProjects = [
-  { name: "you" },
-  { name: "Software development" },
-  { name: "E-SHOP" },
+  { id: "0c11bb26-a3b5-4f85-aaad-0178fc1ad47f", name: "you" },
+  { id: "1b22cc33-b4c6-5d97-bbae-1234abcd5678", name: "Software development" },
+  { id: "2c33dd44-c5d7-6e08-ccbf-2345bcde6789", name: "E-SHOP" },
 ];
 
-export default function ProjectsSidebar() {
+interface ProjectsSidebarProps {
+  selectedSection?: string;
+  onSelectSection?: (section: string) => void;
+}
+
+export default function ProjectsSidebar({
+  selectedSection,
+  onSelectSection,
+}: ProjectsSidebarProps = {}) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const router = useRouter();
 
   return (
     <aside
@@ -78,8 +88,11 @@ export default function ProjectsSidebar() {
               <ul className="flex flex-col gap-1">
                 {recentProjects.map((proj) => (
                   <li
-                    key={proj.name}
+                    key={proj.id}
                     className="flex items-center gap-2 px-2 py-2 rounded-lg text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    onClick={() =>
+                      router.push(`/dashboard/projects/${proj.id}`)
+                    }
                   >
                     <svg
                       className="w-4 h-4 text-green-400"
