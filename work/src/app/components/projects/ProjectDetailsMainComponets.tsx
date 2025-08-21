@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import TaskActionsBar from "@/app/components/tasks/TaskActionsBar";
 import CreateTaskDrawer from "./CreateTaskDrawer";
-import ProjectsSidebar from "./ProjectsSidebar";
+import KanbanBoard from "./KanbanBoard";
+import ProjectViewTabs from "./ProjectViewTabs";
 
 interface ProjectDetailsPageProps {
   projectId: string;
@@ -41,7 +42,6 @@ interface TaskFormValues {
 }
 
 export default function ProjectDetailsPage({
-  projectId,
   projectName = "Software development",
 }: ProjectDetailsPageProps) {
   const [openTaskDrawer, setOpenTaskDrawer] = useState(false);
@@ -66,12 +66,12 @@ export default function ProjectDetailsPage({
   };
 
   return (
-    <div className="flex min-h-screen bg-white">
+    <div className="flex min-h-screen bg-white overflow-x-hidden min-w-[100%]">
       {/* Main content */}
-      <div className="flex-1 px-12 py-8 overflow-y-auto">
+      <div className="flex-1 mt-[70px]">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3 w-full max-w-5xl">
+        <div className="flex items-center justify-between h-2 py-8">
+          <div className="flex mb-17 items-center gap-3 w-full ">
             <Link
               href="/dashboard/projects"
               className="flex items-center text-gray-500 hover:text-purple-600 transition font-medium mr-4"
@@ -92,7 +92,7 @@ export default function ProjectDetailsPage({
               </svg>
               Projets
             </Link>
-            <span className="inline-flex items-center min-w-0 flex-1">
+            <span className="inline-flex items-center min-w-0">
               <svg
                 className="w-7 h-7 text-green-600 mr-2 flex-shrink-0"
                 fill="none"
@@ -111,35 +111,29 @@ export default function ProjectDetailsPage({
                 {projectName}
               </span>
             </span>
-            <span className="text-gray-400 text-2xl font-bold ml-4">...</span>
+            <span className="text-gray-400 text-2xl font-bold ml-2">...</span>
+            {/* Ajout du composant TaskActionsBar ici */}
+            <TaskActionsBar onCreateTask={handleCreateTask} />
           </div>
-          <TaskActionsBar onCreateTask={handleCreateTask} />
-          <CreateTaskDrawer
-            open={openTaskDrawer}
-            onClose={handleCloseTaskDrawer}
-            onSubmit={handleSubmitTask}
-            users={users}
-          />
         </div>
 
-        {/* Tri/Filtres (optionnel, si tu veux les séparer) */}
-        {/* <div className="flex items-center gap-2 mb-4">
-          <button className="px-4 py-2 rounded-lg border border-gray-100 bg-gray-50 text-gray-400 hover:bg-gray-100 flex items-center gap-2 font-medium">
-            Filtrer
-          </button>
-          <button className="px-4 py-2 rounded-lg border border-gray-100 bg-gray-50 text-gray-400 hover:bg-gray-100 flex items-center gap-2 font-medium">
-            Trier
-          </button>
-          <button className="px-4 py-2 rounded-lg border border-gray-100 bg-gray-50 text-gray-400 hover:bg-gray-100 flex items-center gap-2 font-medium">
-            Paramètres
-          </button>
-        </div> */}
-
-        {/* Ici tu mets le contenu Kanban, Liste, etc. */}
-        {/* ... */}
+        <div className="border-b ">
+          <ProjectViewTabs
+            currentView="kanban"
+            onViewChange={(view) => console.log(view)}
+            projectId="1"
+          />
+        </div>
+        <div className="px-12 py-8">
+          <KanbanBoard />
+        </div>
+        <CreateTaskDrawer
+          open={openTaskDrawer}
+          onClose={handleCloseTaskDrawer}
+          onSubmit={handleSubmitTask}
+          users={users}
+        />
       </div>
-      {/* Sidebar droite */}
-      <ProjectsSidebar />
     </div>
   );
 }

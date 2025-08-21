@@ -11,11 +11,13 @@ const recentProjects = [
 interface ProjectsSidebarProps {
   selectedSection?: string;
   onSelectSection?: (section: string) => void;
+  onCollapse?: () => void;
 }
 
 export default function ProjectsSidebar({
   selectedSection,
   onSelectSection,
+  onCollapse,
 }: ProjectsSidebarProps = {}) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const router = useRouter();
@@ -30,7 +32,13 @@ export default function ProjectsSidebar({
     >
       {/* Poignée flottante */}
       <button
-        onClick={() => setIsCollapsed((v) => !v)}
+        onClick={() => {
+          if (!isCollapsed && onCollapse) {
+            onCollapse();
+          } else {
+            setIsCollapsed((v) => !v);
+          }
+        }}
         className={`
           absolute top-8 -left-4 w-8 h-8 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center
           transition-transform duration-300

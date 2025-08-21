@@ -4,9 +4,7 @@ interface TaskActionsBarProps {
   onCreateTask: () => void;
 }
 
-export default function TaskActionsBar({
-  onCreateTask,
-}: TaskActionsBarProps) {
+export default function TaskActionsBar({ onCreateTask }: TaskActionsBarProps) {
   return (
     <div className="flex flex-col items-end gap-2 w-full">
       {/* Ligne 1 : Créer tâche + Recherche */}
@@ -33,31 +31,6 @@ export default function TaskActionsBar({
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
         </div>
-      </div>
-      {/* Ligne 2 : Filtrer + Trier */}
-      <div className="flex items-center gap-2 mt-1">
-        <button className="px-4 py-2 rounded-lg border border-gray-100 bg-gray-50 text-gray-400 hover:bg-gray-100 flex items-center gap-2 font-medium">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M3 4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a1 1 0 0 1-.293.707l-6.414 6.414A1 1 0 0 0 14 13.414V19a1 1 0 0 1-1.447.894l-4-2A1 1 0 0 1 8 17v-3.586a1 1 0 0 0-.293-.707L1.293 6.707A1 1 0 0 1 1 6V4z" />
-          </svg>
-          Filtrer
-        </button>
-        <button className="px-4 py-2 rounded-lg border border-gray-100 bg-gray-50 text-gray-400 hover:bg-gray-100 flex items-center gap-2 font-medium">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M3 6h18M3 12h18M3 18h18" />
-          </svg>
-          Trier
-        </button>
       </div>
     </div>
   );

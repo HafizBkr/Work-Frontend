@@ -321,6 +321,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <button
               key={item.id}
               onClick={() => {
+                // UNIQUEMENT la redirection, pas de modification de isCollapsed
                 router.push(item.href);
               }}
               className={`flex items-center transition-all duration-300
@@ -340,6 +341,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     ? "text-gray-900"
                     : "text-gray-500"
                 }
+                title={item.label}
               >
                 {item.icon}
               </span>
@@ -348,6 +350,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   ${isCollapsed ? "opacity-0 w-0 max-w-0 overflow-hidden" : "opacity-100 w-auto max-w-xs ml-2"}
                 `}
                 style={{ minWidth: isCollapsed ? 0 : undefined }}
+                title={item.label}
               >
                 {item.label}
               </span>
