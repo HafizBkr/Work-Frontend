@@ -263,7 +263,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         {/* Logo */}
         <div className="p-6 border-b border-gray-200">
           <div
-            className={`text-2xl font-bold text-purple-600 ${isCollapsed ? "text-center" : ""}`}
+            className={`text-2xl font-bold text-black ${isCollapsed ? "text-center" : ""}`}
           >
             {isCollapsed ? "W" : "Work"}
           </div>

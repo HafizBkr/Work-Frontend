@@ -13,7 +13,7 @@ const PasswordSettings: React.FC = () => {
       </p>
       <button
         type="button"
-        className="w-60 px-4 py-3 text-base font-semibold text-white bg-purple-600 rounded-2xl hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition"
+        className="w-60 px-4 py-3 text-base font-semibold text-white bg-black rounded-2xl hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition"
       >
         Définir le mot de passe
       </button>

@@ -33,7 +33,7 @@ const InformationsSettings: React.FC = () => {
             value={formData.bio}
             onChange={(e) => handleChange("bio", e.target.value)}
             rows={5}
-            className="block w-full px-4 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-purple-400 focus:bg-white transition"
+            className="block w-full px-4 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-black focus:bg-white transition"
           />
         </div>
         {/* Sexe */}
@@ -44,7 +44,7 @@ const InformationsSettings: React.FC = () => {
           <select
             value={formData.gender}
             onChange={(e) => handleChange("gender", e.target.value)}
-            className="block w-full px-4 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-purple-400 focus:bg-white transition appearance-none"
+            className="block w-full px-4 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-black focus:bg-white transition appearance-none"
           >
             <option value="">Choisir votre sexe</option>
             <option value="homme">Homme</option>
@@ -64,7 +64,7 @@ const InformationsSettings: React.FC = () => {
               value={formData.birthDate}
               onChange={(e) => handleChange("birthDate", e.target.value)}
               placeholder="DD - MM - YYYY"
-              className="block w-full px-4 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-purple-400 focus:bg-white transition"
+              className="block w-full px-4 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-black focus:bg-white transition"
             />
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
               <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
@@ -81,7 +81,7 @@ const InformationsSettings: React.FC = () => {
         <div>
           <button
             type="submit"
-            className="w-full px-4 py-3 text-base font-semibold text-white bg-purple-600 rounded-2xl hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition"
+            className="w-full px-4 py-3 text-base font-semibold text-white bg-black rounded-2xl hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition"
           >
             Enregistrer les modifications
           </button>

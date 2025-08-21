@@ -89,7 +89,7 @@ const WorkspaceGeneralSettings: React.FC = () => {
             type="text"
             value={formData.orgName}
             onChange={(e) => handleChange("orgName", e.target.value)}
-            className="block w-full px-4 py-3 text-gray-900 border-0 rounded-2xl bg-white shadow-sm focus:ring-2 focus:ring-purple-400 focus:bg-white transition"
+            className="block w-full px-4 py-3 text-gray-900 border-0 rounded-2xl bg-white shadow-sm focus:ring-2 focus:ring-black focus:bg-white transition"
           />
         </div>
         {/* Description du workspace */}
@@ -103,7 +103,7 @@ const WorkspaceGeneralSettings: React.FC = () => {
               handleChange("workspace_description", e.target.value)
             }
             rows={3}
-            className="block w-full px-4 py-3 text-gray-900 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-purple-400 focus:bg-white transition"
+            className="block w-full px-4 py-3 text-gray-900 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-black focus:bg-white transition"
             placeholder="Décrivez brièvement l'objectif de cet espace de travail"
           />
         </div>
@@ -113,7 +113,7 @@ const WorkspaceGeneralSettings: React.FC = () => {
         <div>
           <button
             type="submit"
-            className="w-full px-4 py-3 text-base font-semibold text-white bg-purple-600 rounded-2xl hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition"
+            className="w-full px-4 py-3 text-base font-semibold text-white bg-black rounded-2xl hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition"
           >
             Enregistrer les modifications
           </button>
