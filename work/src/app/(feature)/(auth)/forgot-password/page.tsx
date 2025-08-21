@@ -9,15 +9,13 @@ const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState("");
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
       <header className="flex justify-between items-center px-6 py-4 bg-white">
-        <div className="text-2xl font-bold text-purple-600 select-none">
-          Work
-        </div>
+        <div className="text-2xl font-bold text-black select-none">Work</div>
       </header>
       {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
+      <div className="flex-1 flex mb-[100px] items-center justify-center px-6 py-12 bg-white">
         <div className="max-w-md w-full space-y-8">
           {/* Title */}
           <div className="text-center">
@@ -49,7 +47,7 @@ const ForgotPasswordPage: React.FC = () => {
           <div className="text-center">
             <Link
               href="/signin"
-              className="text-purple-600 hover:text-purple-500 select-none"
+              className="text-blue-600 hover:text-blue-500 select-none"
             >
               Retour à la connexion
             </Link>

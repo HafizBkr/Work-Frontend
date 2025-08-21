@@ -77,13 +77,11 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
       <header className="flex justify-between items-center px-6 py-4 bg-white ">
         <div className="flex items-center">
-          <div className="text-2xl font-bold text-purple-600 select-none">
-            Work
-          </div>
+          <div className="text-2xl font-bold text-black select-none">Work</div>
         </div>
         <div className="flex items-center space-x-2">
           <div className="text-gray-700 select-none">Français</div>
@@ -104,7 +102,7 @@ const LoginPage: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
+      <div className="flex-1 flex mb-[50px] items-center justify-center px-6 py-12 bg-white">
         <div className="max-w-md w-full space-y-8">
           {/* Title */}
           <div className="text-center">
@@ -168,7 +166,7 @@ const LoginPage: React.FC = () => {
               <div className="text-left">
                 <Link
                   href="/forgot-password"
-                  className="text-purple-600 hover:text-purple-500 text-sm select-none"
+                  className="text-blue-600 hover:text-blue-500 text-sm select-none"
                 >
                   Mot de passe oublié ?
                 </Link>
@@ -189,7 +187,7 @@ const LoginPage: React.FC = () => {
               Nouveau sur notre plateforme ?{" "}
               <Link
                 href="/register"
-                className="text-purple-600 hover:text-purple-500 select-none"
+                className="text-blue-600 hover:text-blue-500 select-none"
               >
                 Créer un compte
               </Link>

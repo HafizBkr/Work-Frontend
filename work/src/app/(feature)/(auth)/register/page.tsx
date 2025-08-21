@@ -104,7 +104,7 @@ const RegisterPage: React.FC = () => {
         {/* Header */}
         <header className="flex justify-between items-center px-6 py-4">
           <div className="flex items-center">
-            <div className="text-2xl font-bold text-purple-600 select-none">
+            <div className="text-2xl font-bold text-black select-none">
               Work
             </div>
           </div>
@@ -233,20 +233,20 @@ const RegisterPage: React.FC = () => {
                   type="checkbox"
                   checked={acceptedTerms}
                   onChange={(e) => setAcceptedTerms(e.target.checked)}
-                  className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                  className="mt-1 h-4 w-4 text-black focus:ring-white border-gray-300 rounded"
                 />
                 <label htmlFor="terms" className="text-sm text-gray-600">
                   J&apos;ai lu et j&apos;accepte la{" "}
                   <Link
                     href="/privacy-policy"
-                    className="text-purple-600 hover:text-purple-500"
+                    className="text-blue-600 hover:text-blue-500"
                   >
                     politique de confidentialité
                   </Link>{" "}
                   et les{" "}
                   <Link
                     href="/terms-of-service"
-                    className="text-purple-600 hover:text-purple-500"
+                    className="text-blue-600 hover:text-blue-500"
                   >
                     conditions de service
                   </Link>
@@ -265,7 +265,7 @@ const RegisterPage: React.FC = () => {
                 Vous avez déjà un compte ?{" "}
                 <Link
                   href="/signin"
-                  className="text-purple-600 hover:text-purple-500 select-none"
+                  className="text-blue-600 hover:text-blue-500 select-none"
                 >
                   Se connecter
                 </Link>
@@ -276,7 +276,7 @@ const RegisterPage: React.FC = () => {
       </div>
 
       {/* Right Side - Purple Background */}
-      <div className="w-1/2 bg-gradient-to-br from-purple-500 to-purple-700">
+      <div className="w-1/2 bg-gradient-to-br from-black to-black">
         {/* Espace pour votre capture d'écran */}
       </div>
     </div>
