@@ -122,7 +122,7 @@ const CalendarPage = () => {
                     }
                   : {}
               }
-              onClick={() => handleView("dayGridWeek")}
+              onClick={() => handleView("timeGridWeek")}
             >
               Semaine
             </button>
@@ -142,7 +142,7 @@ const CalendarPage = () => {
                     }
                   : {}
               }
-              onClick={() => handleView("dayGridDay")}
+              onClick={() => handleView("timeGridDay")}
             >
               Jour
             </button>
@@ -170,11 +170,13 @@ const CalendarPage = () => {
         </div>
         <div className="flex-1 flex flex-col px-0 pb-0">
           <div className="flex-1 overflow-hidden">
-            <CalendarWithRef
-              ref={calendarRef}
-              onTitleChange={setCalendarTitle}
-              onViewChange={setActiveView}
-            />
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden w-full h-full p-[1%]">
+              <CalendarWithRef
+                ref={calendarRef}
+                onTitleChange={setCalendarTitle}
+                onViewChange={setActiveView}
+              />
+            </div>
           </div>
         </div>
       </main>
