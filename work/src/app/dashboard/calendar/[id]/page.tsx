@@ -33,6 +33,7 @@ const CalendarPage = () => {
   const calendarId = params?.id;
 
   const calendarRef = useRef<FullCalendar | null>(null);
+  const calendarContainerRef = useRef<HTMLDivElement | null>(null); // Ref pour le conteneur du calendrier
   const [calendarTitle, setCalendarTitle] = useState("Chargement...");
   const [activeView, setActiveView] = useState("dayGridMonth");
   const { isCollapsed } = useSidebar();
@@ -45,32 +46,25 @@ const CalendarPage = () => {
     }
   }, []);
 
-  // Gestion fluide du redimensionnement - différer complètement le redimensionnement
+  // Gestion fluide du redimensionnement avec masquage temporaire
   useEffect(() => {
     const handleResize = () => {
       updateCalendarSize();
     };
 
-    // Désactiver temporairement le calendrier pendant la transition
-    const api = calendarRef.current?.getApi();
-    if (api) {
-      // Cacher temporairement pendant la transition pour éviter les débordements
-      const calendarEl = api.el;
-      if (calendarEl) {
-        calendarEl.style.visibility = "hidden";
-      }
+    // Masquer temporairement le conteneur du calendrier pendant la transition
+    if (calendarContainerRef.current) {
+      calendarContainerRef.current.style.opacity = "0";
+      calendarContainerRef.current.style.pointerEvents = "none";
     }
 
-    // Réactiver et redimensionner après la transition
+    // Réafficher et redimensionner après la transition
     const timer = setTimeout(() => {
-      const api = calendarRef.current?.getApi();
-      if (api) {
-        const calendarEl = api.el;
-        if (calendarEl) {
-          calendarEl.style.visibility = "visible";
-        }
-        updateCalendarSize();
+      if (calendarContainerRef.current) {
+        calendarContainerRef.current.style.opacity = "1";
+        calendarContainerRef.current.style.pointerEvents = "auto";
       }
+      updateCalendarSize();
     }, 320);
 
     // Listener pour le redimensionnement de la fenêtre
@@ -107,8 +101,17 @@ const CalendarPage = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50" style={{ overflow: "hidden" }}>
-      {/* Style inline pour être sûr */}
+    <div
+      className="flex h-screen bg-gray-50"
+      style={{
+        overflow: "hidden",
+        position: "fixed", // Empêche tout débordement
+        width: "100vw",
+        height: "100vh",
+        top: 0,
+        left: 0,
+      }}
+    >
       <Sidebar selectedSection="calendar" onSelectSection={() => {}} />
       <main
         className="flex-1 flex flex-col transition-all duration-300 ease-out"
@@ -244,11 +247,12 @@ const CalendarPage = () => {
           <div className="flex-1 overflow-hidden min-h-0">
             {/* Ajout min-h-0 */}
             <div
-              className="bg-white rounded-2xl border border-gray-200 overflow-hidden w-full h-full p-[1%] min-h-0"
+              ref={calendarContainerRef} // Ajout de la ref
+              className="bg-white rounded-2xl border border-gray-200 overflow-hidden w-full h-full p-[1%] min-h-0 transition-opacity duration-150 ease-out"
               style={{
                 width: "100%",
                 minWidth: 0,
-                height: "100%", // Force 100% de la hauteur disponible
+                height: "100%",
               }}
             >
               <CalendarWithRef
