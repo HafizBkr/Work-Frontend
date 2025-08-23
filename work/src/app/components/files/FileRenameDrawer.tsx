@@ -87,9 +87,7 @@ export default function FileRenameDrawer({
               className="bg-gray-100"
               containerClassName="text-gray-900"
             />
-            {error && (
-              <div className="text-red-500 text-sm mt-1">{error}</div>
-            )}
+            {error && <div className="text-red-500 text-sm mt-1">{error}</div>}
           </div>
 
           {/* Footer avec boutons */}
@@ -103,7 +101,7 @@ export default function FileRenameDrawer({
             </Button>
             <Button
               type="submit"
-              className="bg-purple-600 text-white font-semibold px-8 py-3 rounded-xl"
+              className="bg-black text-white font-semibold px-8 py-3 rounded-xl"
             >
               Renommer
             </Button>
