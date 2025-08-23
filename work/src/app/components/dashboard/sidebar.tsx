@@ -92,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     {
       id: "calendar",
       label: "Calendrier",
-      href: "/dashboard/calendar",
+      href: "/dashboard/calendar/main",
       icon: (
         <svg
           className="w-5 h-5"
