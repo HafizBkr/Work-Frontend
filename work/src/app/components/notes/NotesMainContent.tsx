@@ -102,6 +102,14 @@ export default function NotesMainContent({
                   className="group cursor-pointer bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl p-5 transition flex flex-col relative"
                   tabIndex={0}
                   role="button"
+                  onClick={() =>
+                    (window.location.href = `/dashboard/notes/${note.id}`)
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      window.location.href = `/dashboard/notes/${note.id}`;
+                    }
+                  }}
                   // TODO: onClick pour ouvrir la note en détail/édition
                 >
                   {/* Bouton menu ... */}
