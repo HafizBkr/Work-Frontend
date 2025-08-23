@@ -49,7 +49,7 @@ const WorkspaceMembersSettings: React.FC = () => {
           Gérer les utilisateurs
         </h1>
         <button
-          className="flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 transition text-base"
+          className="flex items-center gap-2 px-5 py-2.5 bg-black text-white font-semibold rounded-xl hover:bg-neutral-900 transition text-base"
           onClick={() => setShowInviteDrawer(true)}
         >
           <UserPlus className="w-5 h-5" />
@@ -66,7 +66,7 @@ const WorkspaceMembersSettings: React.FC = () => {
             placeholder="Rechercher  membres"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 pr-4 py-2 rounded-xl bg-gray-100 text-gray-700 placeholder-gray-400 border-0 focus:ring-2 focus:ring-purple-400 focus:bg-white transition w-64"
+            className="pl-10 pr-4 py-2 rounded-xl bg-gray-100 text-gray-700 placeholder-gray-400 border-0 focus:ring-2 focus:ring-black focus:bg-white transition w-64"
           />
           <svg
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -111,7 +111,7 @@ const WorkspaceMembersSettings: React.FC = () => {
                 <td className="py-3 px-4">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`relative w-10 h-10 rounded-full flex items-center justify-center text-base font-bold ${member.avatarColor}`}
+                      className={`relative w-10 h-10 rounded-full flex items-center justify-center text-base font-bold ${member.avatarColor.replace("bg-purple-600", "bg-black text-white")}`}
                     >
                       {member.avatar}
                       <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white bg-green-400"></span>

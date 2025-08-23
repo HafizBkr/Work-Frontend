@@ -16,7 +16,7 @@ export default function CreateProjectDrawer({
 
   return (
     <Drawer open={open} onClose={onClose}>
-      <div className="p-8 flex-1 flex flex-col min-h-full">
+      <div className="p-8 flex-1 flex flex-col min-h-full max-w-4xl w-full mx-auto">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">

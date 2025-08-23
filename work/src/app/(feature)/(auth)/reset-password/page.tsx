@@ -47,13 +47,11 @@ const ResetPasswordPage: React.FC = () => {
   const isOtpComplete = otp.every((digit) => digit.length === 1);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <header className="flex justify-between items-center px-6 py-4 bg-white">
-        <div className="text-2xl font-bold text-purple-600 select-none">
-          Work
-        </div>
+        <div className="text-2xl font-bold text-black select-none">Work</div>
       </header>
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
+      <div className="flex-1 flex mb-[100px] items-center justify-center px-6 py-12 bg-white">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <div className="text-3xl font-semibold text-gray-900 mb-2 select-none">
@@ -142,7 +140,7 @@ const ResetPasswordPage: React.FC = () => {
           <div className="text-center">
             <Link
               href="/signin"
-              className="text-purple-600 hover:text-purple-500 select-none"
+              className="text-blue-600 hover:text-blue-500 select-none"
             >
               Retour à la connexion
             </Link>

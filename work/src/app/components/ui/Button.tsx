@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       {...props}
       className={clsx(
-        "py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200 select-none",
+        "py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-black over:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition-colors duration-200 select-none",
         fullWidth && "w-full",
         className,
       )}

@@ -53,12 +53,12 @@ const InviteMemberDrawer: React.FC<InviteMemberDrawerProps> = ({
                 placeholder="Entrez  e-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 py-2.5 border-2 border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition text-gray-900 placeholder-gray-400"
+                className="flex-1 px-4 py-2.5 border-2 border-black/20 rounded-xl focus:ring-2 focus:ring-black focus:border-black transition text-gray-900 placeholder-gray-400"
               />
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="px-3 py-2 border-2 border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition text-gray-900"
+                className="px-3 py-2 border-2 border-black/20 rounded-xl focus:ring-2 focus:ring-black focus:border-black transition text-gray-900"
               >
                 {roles.map((r) => (
                   <option key={r.value} value={r.value}>
@@ -68,7 +68,7 @@ const InviteMemberDrawer: React.FC<InviteMemberDrawerProps> = ({
               </select>
               <button
                 type="button"
-                className="px-4 py-2 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 transition flex items-center gap-1"
+                className="px-4 py-2 bg-black text-white font-semibold rounded-xl hover:bg-neutral-900 transition flex items-center gap-1"
                 onClick={() => {
                   if (email) {
                     setInvitations((inv) => [...inv, email]);
@@ -84,7 +84,7 @@ const InviteMemberDrawer: React.FC<InviteMemberDrawerProps> = ({
                 type="checkbox"
                 checked={shareLink}
                 onChange={(e) => setShareLink(e.target.checked)}
-                className="accent-purple-600"
+                className="accent-black"
               />
               Partager le lien
             </div>
@@ -103,14 +103,14 @@ const InviteMemberDrawer: React.FC<InviteMemberDrawerProps> = ({
         </div>
         <div className="flex gap-4 px-8 pb-8">
           <button
-            className="flex-1 py-3 rounded-xl bg-gray-100 text-purple-600 font-semibold"
+            className="flex-1 py-3 rounded-xl bg-gray-100 text-black font-semibold"
             onClick={onClose}
             type="button"
           >
             Annuler
           </button>
           <button
-            className="flex-1 py-3 rounded-xl bg-purple-200 text-white font-semibold"
+            className="flex-1 py-3 rounded-xl bg-black/20 text-white font-semibold"
             disabled
             type="button"
           >

@@ -56,7 +56,7 @@ const WorkspaceSettingsSidebar: React.FC<WorkspaceSettingsSidebarProps> = ({
               return (
                 <li key={item.section}>
                   <button
-                    className={`w-full flex items-center gap-4 px-4 py-4 rounded-lg text-left transition-colors ${
+                    className={`w-full flex items-center gap-4 px-4 py-4 rounded-lg text-left transition-colors cursor-pointer ${
                       isActive
                         ? "bg-gray-100 text-gray-900 font-medium"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"

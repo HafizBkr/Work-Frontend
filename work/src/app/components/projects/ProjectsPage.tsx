@@ -40,7 +40,7 @@ export default function ProjectsPage() {
         {/* Header */}
         <div className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-2">
           {/* Left: Title & meta */}
-          <div className="w-100">
+          <div className="w-100 mb-11">
             <h1 className="text-3xl font-bold text-gray-900">
               Tous les projets
             </h1>

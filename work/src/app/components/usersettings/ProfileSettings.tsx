@@ -42,7 +42,7 @@ const ProfileSettings: React.FC = () => {
             type="text"
             value={formData.fullName}
             onChange={(e) => handleChange("fullName", e.target.value)}
-            className="block w-full px-4 py-3 text-gray-900 border-0 rounded-2xl bg-white shadow-sm focus:ring-2 focus:ring-purple-400 focus:bg-white transition"
+            className="block w-full px-4 py-3 text-gray-900 border-0 rounded-2xl bg-white shadow-sm focus:ring-2 focus:ring-black focus:bg-white transition"
           />
         </div>
         {/* Poste */}
@@ -55,7 +55,7 @@ const ProfileSettings: React.FC = () => {
             placeholder="Tapez votre poste"
             value={formData.jobTitle}
             onChange={(e) => handleChange("jobTitle", e.target.value)}
-            className="block w-full px-4 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-purple-400 focus:bg-white transition"
+            className="block w-full px-4 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-black focus:bg-white transition"
           />
         </div>
         {/* E-mail */}
@@ -84,7 +84,7 @@ const ProfileSettings: React.FC = () => {
               placeholder="5 - 55 - 55 - 55 - 55"
               value={formData.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
-              className="flex-1 px-3 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-purple-400 focus:bg-white transition"
+              className="flex-1 px-3 py-3 text-gray-700 border-0 rounded-2xl bg-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-black focus:bg-white transition"
             />
           </div>
         </div>
@@ -92,7 +92,7 @@ const ProfileSettings: React.FC = () => {
         <div>
           <button
             type="submit"
-            className="w-full px-4 py-3 text-base font-semibold text-white bg-purple-600 rounded-2xl hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition"
+            className="w-full px-4 py-3 text-base font-semibold text-white bg-black rounded-2xl hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition"
           >
             Enregistrer les modifications
           </button>

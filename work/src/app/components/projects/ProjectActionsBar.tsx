@@ -23,7 +23,7 @@ export default function ProjectActionsBar({
           </svg>
         </button>
         <button
-          className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold hover:from-purple-600 hover:to-purple-700 transition flex items-center gap-2 text-base"
+          className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-black to-black text-white font-semibold hover:from-black hover:to-black transition flex items-center gap-2 text-base"
           onClick={onOpenDrawer}
         >
           <span className="text-lg">+</span> Créer projet
@@ -32,7 +32,7 @@ export default function ProjectActionsBar({
           <input
             type="text"
             placeholder="Rechercher des projets"
-            className="pl-9 pr-4 py-2 rounded-lg border-none bg-gray-100 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition w-56"
+            className="pl-9 pr-4 py-2 rounded-lg border-none bg-gray-100 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-black focus:border-black transition w-56"
           />
           <svg
             className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"

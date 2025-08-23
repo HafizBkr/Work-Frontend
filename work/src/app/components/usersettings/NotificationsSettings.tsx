@@ -34,7 +34,7 @@ const NotificationsSettings: React.FC = () => {
               <select
                 value={formData.suspend}
                 onChange={(e) => handleChange("suspend", e.target.value)}
-                className="block w-32 px-4 py-2 text-gray-900 border-0 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-purple-400 focus:bg-white transition appearance-none"
+                className="block w-32 px-4 py-2 text-gray-900 border-0 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-black focus:bg-white transition appearance-none"
               >
                 <option value="jamais">Jamais</option>
                 <option value="1h">1 heure</option>
@@ -75,7 +75,7 @@ const NotificationsSettings: React.FC = () => {
               onChange={(e) => handleChange("app", e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-10 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-400 rounded-full peer peer-checked:bg-purple-600 transition relative">
+            <div className="w-10 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-black rounded-full peer peer-checked:bg-black transition relative">
               <div
                 className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${
                   formData.app ? "translate-x-4" : ""
@@ -102,7 +102,7 @@ const NotificationsSettings: React.FC = () => {
               onChange={(e) => handleChange("push", e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-10 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-400 rounded-full peer peer-checked:bg-purple-600 transition relative">
+            <div className="w-10 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-black rounded-full peer peer-checked:bg-black transition relative">
               <div
                 className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${
                   formData.push ? "translate-x-4" : ""
@@ -129,7 +129,7 @@ const NotificationsSettings: React.FC = () => {
               onChange={(e) => handleChange("email", e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-10 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-400 rounded-full peer peer-checked:bg-purple-600 transition relative">
+            <div className="w-10 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-black rounded-full peer peer-checked:bg-black transition relative">
               <div
                 className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${
                   formData.email ? "translate-x-4" : ""
@@ -141,7 +141,7 @@ const NotificationsSettings: React.FC = () => {
         <div>
           <button
             type="submit"
-            className="w-full px-4 py-3 text-base font-semibold text-white bg-purple-600 rounded-2xl hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition"
+            className="w-full px-4 py-3 text-base font-semibold text-white bg-black rounded-2xl hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition"
           >
             Enregistrer les modifications
           </button>

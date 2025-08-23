@@ -1,14 +1,26 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const recentProjects = [
-  { name: "you" },
-  { name: "Software development" },
-  { name: "E-SHOP" },
+  { id: "0c11bb26-a3b5-4f85-aaad-0178fc1ad47f", name: "you" },
+  { id: "1b22cc33-b4c6-5d97-bbae-1234abcd5678", name: "Software development" },
+  { id: "2c33dd44-c5d7-6e08-ccbf-2345bcde6789", name: "E-SHOP" },
 ];
 
-export default function ProjectsSidebar() {
+interface ProjectsSidebarProps {
+  selectedSection?: string;
+  onSelectSection?: (section: string) => void;
+  onCollapse?: () => void;
+}
+
+export default function ProjectsSidebar({
+  selectedSection,
+  onSelectSection,
+  onCollapse,
+}: ProjectsSidebarProps = {}) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const router = useRouter();
 
   return (
     <aside
@@ -20,7 +32,13 @@ export default function ProjectsSidebar() {
     >
       {/* Poignée flottante */}
       <button
-        onClick={() => setIsCollapsed((v) => !v)}
+        onClick={() => {
+          if (!isCollapsed && onCollapse) {
+            onCollapse();
+          } else {
+            setIsCollapsed((v) => !v);
+          }
+        }}
         className={`
           absolute top-8 -left-4 w-8 h-8 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center
           transition-transform duration-300
@@ -64,10 +82,10 @@ export default function ProjectsSidebar() {
               />
             </div>
             <div className="flex gap-2">
-              <button className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium hover:bg-gray-200">
+              <button className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 cursor-pointer">
                 Filtrer
               </button>
-              <button className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium hover:bg-gray-200">
+              <button className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 cursor-pointer">
                 Trier
               </button>
             </div>
@@ -78,8 +96,11 @@ export default function ProjectsSidebar() {
               <ul className="flex flex-col gap-1">
                 {recentProjects.map((proj) => (
                   <li
-                    key={proj.name}
+                    key={proj.id}
                     className="flex items-center gap-2 px-2 py-2 rounded-lg text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    onClick={() =>
+                      router.push(`/dashboard/projects/${proj.id}`)
+                    }
                   >
                     <svg
                       className="w-4 h-4 text-green-400"
@@ -107,7 +128,7 @@ export default function ProjectsSidebar() {
           {/* Top section */}
           <div className="flex flex-col items-center gap-2">
             {/* Projet */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg border border-gray-200 bg-white shadow-sm px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg border border-gray-200 bg-white shadow-sm px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-6 h-6 text-gray-400"
                 fill="none"
@@ -129,7 +150,7 @@ export default function ProjectsSidebar() {
             </button>
             <div className="w-8 border-t border-gray-200 my-2" />
             {/* Favoris */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
@@ -149,7 +170,7 @@ export default function ProjectsSidebar() {
               </span>
             </button>
             {/* Statistiques */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
@@ -169,7 +190,7 @@ export default function ProjectsSidebar() {
               </span>
             </button>
             {/* Corbeille */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
@@ -190,7 +211,7 @@ export default function ProjectsSidebar() {
               </span>
             </button>
             {/* Modèles */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
@@ -211,7 +232,7 @@ export default function ProjectsSidebar() {
               </span>
             </button>
             {/* Autres */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
