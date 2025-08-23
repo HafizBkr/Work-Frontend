@@ -31,7 +31,7 @@ function ConversationItem({
 
   return (
     <button
-      className={`w-full flex items-center px-3 py-2.5 rounded-md transition-colors mb-1 ${
+      className={`w-full flex items-center px-3 py-2.5 rounded-md transition-colors mb-1 cursor-pointer ${
         isSelected ? "bg-gray-100" : "hover:bg-gray-50"
       }`}
       onClick={onClick}

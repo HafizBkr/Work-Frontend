@@ -231,9 +231,9 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <div className="relative bg-gray-50 ">
+    <div className="relative bg-gray-60 ">
       <div
-        className={`${isCollapsed ? "w-16" : "w-64"} bg-gray-50 border-r border-gray-200 h-screen flex flex-col transition-all duration-300 ease-in-out relative`}
+        className={`${isCollapsed ? "w-16" : "w-55"} bg-gray-50 border-r border-gray-200 h-screen flex flex-col transition-all duration-300 ease-in-out relative`}
       >
         {/* Toggle Button */}
         <button
@@ -316,7 +316,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           )}
         </div>
         {/* Main Navigation */}
-        <nav className="flex flex-col gap-2 mt-4 px-4">
+        <nav className="flex flex-col gap-2 mt-4 ">
           {mainMenuItems.map((item) => (
             <button
               key={item.id}
@@ -324,7 +324,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 // UNIQUEMENT la redirection, pas de modification de isCollapsed
                 router.push(item.href);
               }}
-              className={`flex items-center transition-all duration-300
+              className={`flex items-center transition-all duration-300 cursor-pointer
                 ${isCollapsed ? "justify-center px-0" : "gap-3 px-4"}
                 py-2 rounded-lg text-base font-medium
                 ${
@@ -362,7 +362,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className="border-t border-gray-200 px-4 py-4 space-y-1 bg-white mt-auto">
             <button
               onClick={() => onSelectSection("notifications")}
-              className={`w-full flex items-center transition-all duration-300 ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
+              className={`w-full flex items-center transition-all duration-300 cursor-pointer ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
                 selectedSection === "notifications"
                   ? "bg-purple-50 text-purple-700"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -389,7 +389,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             </button>
             <button
               onClick={() => onSelectSection("integrations")}
-              className={`w-full flex items-center transition-all duration-300 ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
+              className={`w-full flex items-center transition-all duration-300 cursor-pointer ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
                 selectedSection === "integrations"
                   ? "bg-purple-50 text-purple-700"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -416,7 +416,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             </button>
             <button
               onClick={() => onSelectSection("workspace-settings")}
-              className={`w-full flex items-center transition-all duration-300 ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
+              className={`w-full flex items-center transition-all duration-300 cursor-pointer ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
                 selectedSection === "workspace-settings"
                   ? "bg-purple-50 text-purple-700"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -449,7 +449,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             </button>
             <button
               onClick={() => onSelectSection("help")}
-              className={`w-full flex items-center transition-all duration-300 ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
+              className={`w-full flex items-center transition-all duration-300 cursor-pointer ${isCollapsed ? "justify-center px-0" : "space-x-3 px-3"} py-2.5 rounded-lg text-sm font-medium ${
                 selectedSection === "help"
                   ? "bg-purple-50 text-purple-700"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"

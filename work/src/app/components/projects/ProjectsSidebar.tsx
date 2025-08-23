@@ -82,10 +82,10 @@ export default function ProjectsSidebar({
               />
             </div>
             <div className="flex gap-2">
-              <button className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium hover:bg-gray-200">
+              <button className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 cursor-pointer">
                 Filtrer
               </button>
-              <button className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium hover:bg-gray-200">
+              <button className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 cursor-pointer">
                 Trier
               </button>
             </div>
@@ -128,7 +128,7 @@ export default function ProjectsSidebar({
           {/* Top section */}
           <div className="flex flex-col items-center gap-2">
             {/* Projet */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg border border-gray-200 bg-white shadow-sm px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg border border-gray-200 bg-white shadow-sm px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-6 h-6 text-gray-400"
                 fill="none"
@@ -150,7 +150,7 @@ export default function ProjectsSidebar({
             </button>
             <div className="w-8 border-t border-gray-200 my-2" />
             {/* Favoris */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
@@ -170,7 +170,7 @@ export default function ProjectsSidebar({
               </span>
             </button>
             {/* Statistiques */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
@@ -190,7 +190,7 @@ export default function ProjectsSidebar({
               </span>
             </button>
             {/* Corbeille */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
@@ -211,7 +211,7 @@ export default function ProjectsSidebar({
               </span>
             </button>
             {/* Modèles */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
@@ -232,7 +232,7 @@ export default function ProjectsSidebar({
               </span>
             </button>
             {/* Autres */}+{" "}
-            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300">
+            <button className="flex items-center w-full min-w-0 justify-center rounded-lg px-2 py-2 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
