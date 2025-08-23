@@ -10,6 +10,7 @@ import type { CalendarApi } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import { DateSelectArg, EventClickArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import frLocale from "@fullcalendar/core/locales/fr";
 import { v4 as uuidv4 } from "uuid";
@@ -17,6 +18,7 @@ import EventDrawer from "./EventDrawer";
 import EventModal from "./EventModal";
 import EditEventDrawer from "./EditEventDrawer";
 import "../../../app/globals.css";
+
 type CalendarEvent = {
   id: string;
   event_title: string;
@@ -144,8 +146,8 @@ const Calendar = forwardRef<CalendarHandle, CalendarProps>(
     // Event styling function matching the image
     const getEventClasses = useCallback(() => {
       return [
-        "bg-purple-500",
-        "hover:bg-purple-600",
+        "bg-black",
+        "hover:bg-gray-900",
         "text-white font-medium",
         "rounded px-2 py-1",
         "text-xs",
@@ -155,7 +157,6 @@ const Calendar = forwardRef<CalendarHandle, CalendarProps>(
       ].join(" ");
     }, []);
 
-    // Synchronise le titre et la vue avec le parent
     const handleDatesSet = useCallback(
       (arg: { view: { title: string; type: string } }) => {
         if (onTitleChange) onTitleChange(arg.view.title);
@@ -169,7 +170,7 @@ const Calendar = forwardRef<CalendarHandle, CalendarProps>(
         <div className="flex-1">
           <FullCalendar
             ref={calendarRef}
-            plugins={[dayGridPlugin, interactionPlugin]}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             locale={frLocale}
             headerToolbar={false}
@@ -184,11 +185,12 @@ const Calendar = forwardRef<CalendarHandle, CalendarProps>(
             eventClassNames={getEventClasses}
             dayHeaderClassNames="text-gray-500 font-semibold uppercase text-xs"
             dayCellClassNames="hover:bg-gray-50 cursor-pointer"
+            slotLabelClassNames="!text-black font-semibold"
             datesSet={handleDatesSet}
             dayMaxEventRows={4}
             eventDisplay="block"
-            eventBackgroundColor="#8b5cf6"
-            eventBorderColor="#8b5cf6"
+            eventBackgroundColor="#000000"
+            eventBorderColor="#000000"
             eventTextColor="#ffffff"
             nowIndicator={false}
             selectMirror={true}
