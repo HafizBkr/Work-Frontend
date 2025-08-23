@@ -2,7 +2,7 @@
 
 import React from "react";
 import Sidebar from "@/app/components/dashboard/sidebar";
-import FilesMainContent from "./FilesMainContent";
+import FilesMainContent from "../../components/files/FilesMainContent";
 
 const folders = [
   {

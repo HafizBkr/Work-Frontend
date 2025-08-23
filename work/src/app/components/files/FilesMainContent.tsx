@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import FilesAddMenu from "@/app/components/ui/FilesAddMenu";
+import CreateFolderDrawer from "@/app/components/folder/CreateFolderDrawer";
+import RenameFolderDrawer from "@/app/components/folder/RenameFolderDrawer";
+import FolderMenu from "@/app/components/folder/FolderMenu";
 
 interface Folder {
   id: string;
@@ -31,10 +35,42 @@ export default function FilesMainContent({
   onCreateFolder,
 }: FilesMainContentProps) {
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [openCreateFolderDrawer, setOpenCreateFolderDrawer] = useState(false);
+  const [openRenameFolderDrawer, setOpenRenameFolderDrawer] = useState(false);
+  const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+
   const isEmpty = folders.length === 0 && files.length === 0;
 
+  // Ouvre le menu contextuel à la position du bouton
+  const handleMenuButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    folder: Folder,
+  ) => {
+    e.stopPropagation();
+    setSelectedFolder(folder);
+    setMenuAnchor(e.currentTarget);
+  };
+
+  // Ferme le menu contextuel
+  const handleCloseMenu = () => {
+    setMenuAnchor(null);
+  };
+
+  // Ouvre le drawer de renommage
+  const handleFolderRename = () => {
+    setOpenRenameFolderDrawer(true);
+    handleCloseMenu();
+  };
+
+  // Suppression (à implémenter)
+  const handleFolderDelete = (id: string) => {
+    // TODO: API suppression
+    console.log("Supprimer dossier", id);
+    handleCloseMenu();
+  };
+
   if (isEmpty) {
-    // Affichage vide (icône centrale + boutons)
     return (
       <div className="flex flex-col items-center justify-center h-full min-h-[70vh]">
         <div className="mb-6">
@@ -48,7 +84,7 @@ export default function FilesMainContent({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="lucide lucide-file-text-icon lucide-file-text text-gray-400"
+            className="lucide lucide-file-text-icon lucide-file-text text-black"
             style={{ width: "96px", height: "96px" }}
           >
             <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
@@ -80,7 +116,7 @@ export default function FilesMainContent({
           </button>
           <button
             className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-semibold py-2 px-4 rounded flex items-center gap-2"
-            onClick={onCreateFolder}
+            onClick={() => setOpenCreateFolderDrawer(true)}
           >
             <svg
               width="20"
@@ -99,14 +135,17 @@ export default function FilesMainContent({
     );
   }
 
-  // Affichage avec dossiers et fichiers
   return (
     <div className="p-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-8 text-black">Mon Drive</h1>
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-3xl font-bold text-black">Mon Drive</h1>
+        <FilesAddMenu
+          onUploadFile={onUploadFile}
+          onCreateFolder={() => setOpenCreateFolderDrawer(true)}
+        />
       </div>
       {/* Dossiers */}
-      <div className="mb-8 flex items-center justify-between">
+      <div className=" flex items-center justify-between">
         <div>
           <h2 className="font-semibold text-lg mb-2 text-black">
             Dossiers{" "}
@@ -119,7 +158,9 @@ export default function FilesMainContent({
             style={{ boxShadow: "0 2px 8px 0 rgba(0,0,0,0.06)" }}
           >
             <button
-              className={`transition-colors duration-150 flex items-center justify-center w-7 h-7 rounded-full ${viewMode === "list" ? "bg-white" : "bg-gray-200"}`}
+              className={`transition-colors duration-150 flex items-center justify-center w-7 h-7 rounded-full ${
+                viewMode === "list" ? "bg-white" : "bg-gray-200"
+              }`}
               title="Vue liste"
               onClick={() => setViewMode("list")}
               style={{ border: "none" }}
@@ -145,7 +186,9 @@ export default function FilesMainContent({
               </svg>
             </button>
             <button
-              className={`transition-colors duration-150 flex items-center justify-center w-7 h-7 rounded-full ${viewMode === "grid" ? "bg-white" : "bg-gray-200"}`}
+              className={`transition-colors duration-150 flex items-center justify-center w-7 h-7 rounded-full ${
+                viewMode === "grid" ? "bg-white" : "bg-gray-200"
+              }`}
               title="Vue grille"
               onClick={() => setViewMode("grid")}
               style={{ border: "none" }}
@@ -187,7 +230,17 @@ export default function FilesMainContent({
             {folders.map((folder) => (
               <div
                 key={folder.id}
-                className="border rounded-lg px-4 py-3 flex items-center justify-between bg-white shadow-sm"
+                className="border rounded-lg px-4 py-3 flex items-center justify-between bg-white shadow-sm cursor-pointer text-black relative"
+                onClick={() =>
+                  (window.location.href = `/dashboard/files/folder/${folder.id}`)
+                }
+                tabIndex={0}
+                role="button"
+                aria-label={`Ouvrir le dossier ${folder.name}`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
+                    window.location.href = `/dashboard/files/folder/${folder.id}`;
+                }}
               >
                 <div className="flex items-center gap-2">
                   <svg
@@ -202,11 +255,32 @@ export default function FilesMainContent({
                     <rect x="3" y="7" width="18" height="13" rx="2" />
                     <path d="M3 7l4-4h10l4 4" />
                   </svg>
-                  <span className="font-medium">{folder.name}</span>
+                  <span className="font-medium text-black">{folder.name}</span>
                 </div>
-                <span className="text-xs text-black">
-                  {folder.createdAt || "now"}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-black">
+                    {folder.createdAt || "now"}
+                  </span>
+                  <button
+                    className="p-1 rounded-full hover:bg-gray-100"
+                    onClick={(e) => handleMenuButtonClick(e, folder)}
+                    aria-label="Options dossier"
+                    type="button"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="black"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle cx="5" cy="12" r="1.5" />
+                      <circle cx="12" cy="12" r="1.5" />
+                      <circle cx="19" cy="12" r="1.5" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -215,8 +289,37 @@ export default function FilesMainContent({
             {folders.map((folder) => (
               <div
                 key={folder.id}
-                className="w-32 bg-white rounded-lg shadow-sm flex flex-col items-center p-4"
+                className="w-32 bg-white rounded-lg shadow-sm flex flex-col items-center p-4 cursor-pointer relative"
+                onClick={() =>
+                  (window.location.href = `/dashboard/files/folder/${folder.id}`)
+                }
+                tabIndex={0}
+                role="button"
+                aria-label={`Ouvrir le dossier ${folder.name}`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
+                    window.location.href = `/dashboard/files/folder/${folder.id}`;
+                }}
               >
+                <button
+                  className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 z-10"
+                  onClick={(e) => handleMenuButtonClick(e, folder)}
+                  aria-label="Options dossier"
+                  type="button"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="black"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle cx="5" cy="12" r="1.5" />
+                    <circle cx="12" cy="12" r="1.5" />
+                    <circle cx="19" cy="12" r="1.5" />
+                  </svg>
+                </button>
                 <svg
                   width="32"
                   height="32"
@@ -229,7 +332,9 @@ export default function FilesMainContent({
                   <rect x="3" y="7" width="18" height="13" rx="2" />
                   <path d="M3 7l4-4h10l4 4" />
                 </svg>
-                <span className="font-medium text-center">{folder.name}</span>
+                <span className="font-medium text-black text-center">
+                  {folder.name}
+                </span>
                 <span className="text-xs text-black">
                   {folder.createdAt || "now"}
                 </span>
@@ -240,7 +345,7 @@ export default function FilesMainContent({
       </div>
 
       <div>
-        <h2 className="font-semibold text-lg mb-2 text-black">
+        <h2 className="font-semibold text-lg mb-2 mt-2 text-black">
           Fichiers{" "}
           <span className="text-black font-normal">({files.length})</span>
         </h2>
@@ -273,7 +378,7 @@ export default function FilesMainContent({
                       <path d="M16 13H8" />
                       <path d="M16 17H8" />
                     </svg>
-                    <span className="font-medium">{file.name}</span>
+                    <span className="font-medium text-black">{file.name}</span>
                   </div>
                   <span className="text-xs text-black">
                     {file.createdAt || "now"}
@@ -286,7 +391,6 @@ export default function FilesMainContent({
               {files.map((file) => (
                 <div key={file.id} className="flex flex-col items-center w-32">
                   <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center mb-2">
-                    {/* Icône fichier personnalisée */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="40"
@@ -297,7 +401,7 @@ export default function FilesMainContent({
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="lucide lucide-file-text-icon lucide-file-text text-gray-400"
+                      className="lucide lucide-file-text-icon lucide-file-text text-black"
                     >
                       <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
                       <path d="M14 2v4a2 2 0 0 0 2 2h4" />
@@ -306,10 +410,10 @@ export default function FilesMainContent({
                       <path d="M16 17H8" />
                     </svg>
                   </div>
-                  <span className="text-sm text-gray-700 truncate w-full text-center font-medium">
+                  <span className="font-medium text-black text-center w-full truncate">
                     {file.name}
                   </span>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-black">
                     {file.createdAt || "now"}
                   </span>
                 </div>
@@ -318,6 +422,46 @@ export default function FilesMainContent({
           )}
         </div>
       </div>
+      <CreateFolderDrawer
+        open={openCreateFolderDrawer}
+        onClose={() => setOpenCreateFolderDrawer(false)}
+        onSubmit={(folderName) => {
+          onCreateFolder?.();
+          setOpenCreateFolderDrawer(false);
+        }}
+      />
+
+      {selectedFolder && menuAnchor && (
+        <div
+          style={{
+            position: "fixed",
+            left: menuAnchor.getBoundingClientRect().left,
+            top: menuAnchor.getBoundingClientRect().bottom + 4,
+            zIndex: 1000,
+          }}
+        >
+          <FolderMenu
+            folderId={selectedFolder.id}
+            onClose={handleCloseMenu}
+            onRename={handleFolderRename}
+            onDelete={() => handleFolderDelete(selectedFolder.id)}
+            position="right"
+          />
+        </div>
+      )}
+
+      {selectedFolder && (
+        <RenameFolderDrawer
+          open={openRenameFolderDrawer}
+          initialName={selectedFolder.name}
+          onClose={() => setOpenRenameFolderDrawer(false)}
+          onSubmit={(newName) => {
+            // TODO: API renommage
+            console.log("Renommer dossier", selectedFolder.id, "->", newName);
+            setOpenRenameFolderDrawer(false);
+          }}
+        />
+      )}
     </div>
   );
 }
