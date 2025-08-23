@@ -18,6 +18,7 @@ import EventDrawer from "./EventDrawer";
 import EventModal from "./EventModal";
 import EditEventDrawer from "./EditEventDrawer";
 import "../../../app/globals.css";
+
 type CalendarEvent = {
   id: string;
   event_title: string;

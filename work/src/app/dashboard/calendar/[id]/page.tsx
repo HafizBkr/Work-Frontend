@@ -1,9 +1,16 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import React, { useRef, useState, forwardRef } from "react";
+import React, {
+  useRef,
+  useState,
+  forwardRef,
+  useEffect,
+  useCallback,
+} from "react";
 import dynamic from "next/dynamic";
 import Sidebar from "@/app/components/dashboard/sidebar";
+import { useSidebar } from "@/app/components/dashboard/context/SidebarContext";
 
 // Typage strict pour CalendarWithRef
 import type { CalendarProps } from "@/app/components/calendar/Calendar";
@@ -28,29 +35,93 @@ const CalendarPage = () => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const [calendarTitle, setCalendarTitle] = useState("Chargement...");
   const [activeView, setActiveView] = useState("dayGridMonth");
+  const { isCollapsed } = useSidebar();
+
+  // Fonction de redimensionnement optimisée
+  const updateCalendarSize = useCallback(() => {
+    const api = calendarRef.current?.getApi();
+    if (api) {
+      api.updateSize();
+    }
+  }, []);
+
+  // Gestion fluide du redimensionnement - différer complètement le redimensionnement
+  useEffect(() => {
+    const handleResize = () => {
+      updateCalendarSize();
+    };
+
+    // Désactiver temporairement le calendrier pendant la transition
+    const api = calendarRef.current?.getApi();
+    if (api) {
+      // Cacher temporairement pendant la transition pour éviter les débordements
+      const calendarEl = api.el;
+      if (calendarEl) {
+        calendarEl.style.visibility = "hidden";
+      }
+    }
+
+    // Réactiver et redimensionner après la transition
+    const timer = setTimeout(() => {
+      const api = calendarRef.current?.getApi();
+      if (api) {
+        const calendarEl = api.el;
+        if (calendarEl) {
+          calendarEl.style.visibility = "visible";
+        }
+        updateCalendarSize();
+      }
+    }, 320);
+
+    // Listener pour le redimensionnement de la fenêtre
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isCollapsed, updateCalendarSize]);
 
   const handlePrev = () => {
     const api = calendarRef.current?.getApi();
     if (api) api.prev();
   };
+
   const handleNext = () => {
     const api = calendarRef.current?.getApi();
     if (api) api.next();
   };
+
   const handleToday = () => {
     const api = calendarRef.current?.getApi();
     if (api) api.today();
   };
+
   const handleView = (view: string) => {
     const api = calendarRef.current?.getApi();
-    if (api) api.changeView(view);
+    if (api) {
+      api.changeView(view);
+      // Force le redimensionnement après changement de vue
+      setTimeout(() => updateCalendarSize(), 100);
+    }
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50" style={{ overflow: "hidden" }}>
+      {/* Style inline pour être sûr */}
       <Sidebar selectedSection="calendar" onSelectSection={() => {}} />
-      <main className="flex-1 flex flex-col overflow-hidden">
-        <div className="flex items-center justify-between px-10 pt-8 pb-2 bg-white">
+      <main
+        className="flex-1 flex flex-col transition-all duration-300 ease-out"
+        style={{
+          width: isCollapsed ? "calc(100vw - 60px)" : "calc(100vw - 240px)",
+          maxWidth: isCollapsed ? "calc(100vw - 60px)" : "calc(100vw - 240px)",
+          minWidth: 0,
+          height: "100vh",
+          overflow: "hidden", // Style inline pour être sûr
+        }}
+      >
+        <div className="flex items-center justify-between px-10 pt-8 pb-2 bg-white overflow-hidden flex-shrink-0">
+          {/* Ajout flex-shrink-0 */}
           {/* Groupe titre + navigation + aujourd'hui */}
           <div className="flex items-center">
             <span
@@ -168,9 +239,18 @@ const CalendarPage = () => {
             </button>
           </div>
         </div>
-        <div className="flex-1 flex flex-col px-0 pb-0">
-          <div className="flex-1 overflow-hidden">
-            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden w-full h-full p-[1%]">
+        <div className="flex-1 flex flex-col px-0 pb-0 overflow-hidden min-h-0">
+          {/* Ajout min-h-0 pour forcer la compression */}
+          <div className="flex-1 overflow-hidden min-h-0">
+            {/* Ajout min-h-0 */}
+            <div
+              className="bg-white rounded-2xl border border-gray-200 overflow-hidden w-full h-full p-[1%] min-h-0"
+              style={{
+                width: "100%",
+                minWidth: 0,
+                height: "100%", // Force 100% de la hauteur disponible
+              }}
+            >
               <CalendarWithRef
                 ref={calendarRef}
                 onTitleChange={setCalendarTitle}
