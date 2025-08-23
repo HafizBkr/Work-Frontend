@@ -1,10 +1,14 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import FilesAddMenu from "@/app/components/ui/FilesAddMenu";
 import CreateFolderDrawer from "@/app/components/folder/CreateFolderDrawer";
 import RenameFolderDrawer from "@/app/components/folder/RenameFolderDrawer";
-import FolderMenu from "@/app/components/folder/FolderMenu";
+import FolderMenu from "../folder/FolderMenu";
+import FileMenu from "@/app/components/ui/FileMenu";
+import FileShareDrawer from "@/app/components/files/FileShareDrawer";
+import FileRenameDrawer from "@/app/components/files/FileRenameDrawer";
+import FileInfoDrawer from "@/app/components/files/FileInfoDrawer";
 
 interface Folder {
   id: string;
@@ -17,6 +21,12 @@ interface FileItem {
   name: string;
   createdAt?: string;
   extension?: string;
+  size?: string;
+  location?: string;
+  owner?: string;
+  ownerAvatarUrl?: string;
+  lastOpened?: string;
+  uploadedAt?: string;
 }
 
 interface FilesMainContentProps {
@@ -34,15 +44,25 @@ export default function FilesMainContent({
   onUploadFile,
   onCreateFolder,
 }: FilesMainContentProps) {
+  // Folders
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [openCreateFolderDrawer, setOpenCreateFolderDrawer] = useState(false);
   const [openRenameFolderDrawer, setOpenRenameFolderDrawer] = useState(false);
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 
+  // Files
+  const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
+  const [fileMenuAnchor, setFileMenuAnchor] = useState<HTMLElement | null>(
+    null,
+  );
+  const [openShareFileDrawer, setOpenShareFileDrawer] = useState(false);
+  const [openRenameFileDrawer, setOpenRenameFileDrawer] = useState(false);
+  const [openInfoFileDrawer, setOpenInfoFileDrawer] = useState(false);
+
   const isEmpty = folders.length === 0 && files.length === 0;
 
-  // Ouvre le menu contextuel à la position du bouton
+  // FOLDER MENU HANDLERS
   const handleMenuButtonClick = (
     e: React.MouseEvent<HTMLButtonElement>,
     folder: Folder,
@@ -52,22 +72,60 @@ export default function FilesMainContent({
     setMenuAnchor(e.currentTarget);
   };
 
-  // Ferme le menu contextuel
   const handleCloseMenu = () => {
     setMenuAnchor(null);
   };
 
-  // Ouvre le drawer de renommage
   const handleFolderRename = () => {
     setOpenRenameFolderDrawer(true);
     handleCloseMenu();
   };
 
-  // Suppression (à implémenter)
   const handleFolderDelete = (id: string) => {
     // TODO: API suppression
     console.log("Supprimer dossier", id);
     handleCloseMenu();
+  };
+
+  // FILE MENU HANDLERS
+  const handleFileMenuButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    file: FileItem,
+  ) => {
+    e.stopPropagation();
+    setSelectedFile(file);
+    setFileMenuAnchor(e.currentTarget);
+  };
+
+  const handleCloseFileMenu = () => {
+    setFileMenuAnchor(null);
+  };
+
+  const handleFileShare = () => {
+    setOpenShareFileDrawer(true);
+    handleCloseFileMenu();
+  };
+
+  const handleFileRename = () => {
+    setOpenRenameFileDrawer(true);
+    handleCloseFileMenu();
+  };
+
+  const handleFileInfo = () => {
+    setOpenInfoFileDrawer(true);
+    handleCloseFileMenu();
+  };
+
+  const handleFileDownload = (id: string) => {
+    // TODO: API download
+    console.log("Télécharger fichier", id);
+    handleCloseFileMenu();
+  };
+
+  const handleFileDelete = (id: string) => {
+    // TODO: API suppression
+    console.log("Supprimer fichier", id);
+    handleCloseFileMenu();
   };
 
   if (isEmpty) {
@@ -357,7 +415,7 @@ export default function FilesMainContent({
               {files.map((file) => (
                 <div
                   key={file.id}
-                  className="border rounded-lg px-4 py-3 flex items-center justify-between bg-white shadow-sm"
+                  className="border rounded-lg px-4 py-3 flex items-center justify-between bg-white shadow-sm relative"
                 >
                   <div className="flex items-center gap-2">
                     <svg
@@ -380,16 +438,59 @@ export default function FilesMainContent({
                     </svg>
                     <span className="font-medium text-black">{file.name}</span>
                   </div>
-                  <span className="text-xs text-black">
-                    {file.createdAt || "now"}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-black">
+                      {file.createdAt || "now"}
+                    </span>
+                    <button
+                      className="p-1 rounded-full hover:bg-gray-100"
+                      onClick={(e) => handleFileMenuButtonClick(e, file)}
+                      aria-label="Options fichier"
+                      type="button"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="black"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle cx="5" cy="12" r="1.5" />
+                        <circle cx="12" cy="12" r="1.5" />
+                        <circle cx="19" cy="12" r="1.5" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
           ) : (
             <div className="flex flex-wrap gap-6">
               {files.map((file) => (
-                <div key={file.id} className="flex flex-col items-center w-32">
+                <div
+                  key={file.id}
+                  className="flex flex-col items-center w-32 relative"
+                >
+                  <button
+                    className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 z-10"
+                    onClick={(e) => handleFileMenuButtonClick(e, file)}
+                    aria-label="Options fichier"
+                    type="button"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="black"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle cx="5" cy="12" r="1.5" />
+                      <circle cx="12" cy="12" r="1.5" />
+                      <circle cx="19" cy="12" r="1.5" />
+                    </svg>
+                  </button>
                   <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center mb-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -431,6 +532,7 @@ export default function FilesMainContent({
         }}
       />
 
+      {/* Folder context menu */}
       {selectedFolder && menuAnchor && (
         <div
           style={{
@@ -461,6 +563,55 @@ export default function FilesMainContent({
             setOpenRenameFolderDrawer(false);
           }}
         />
+      )}
+
+      {/* File context menu */}
+      {selectedFile && fileMenuAnchor && (
+        <div
+          style={{
+            position: "fixed",
+            left: fileMenuAnchor.getBoundingClientRect().left,
+            top: fileMenuAnchor.getBoundingClientRect().bottom + 4,
+            zIndex: 1000,
+          }}
+        >
+          <FileMenu
+            fileId={selectedFile.id}
+            onClose={handleCloseFileMenu}
+            onShare={handleFileShare}
+            onRename={handleFileRename}
+            onInfo={handleFileInfo}
+            onDownload={handleFileDownload}
+            onDelete={handleFileDelete}
+            position="right"
+          />
+        </div>
+      )}
+
+      {/* Drawer partage fichier */}
+      {selectedFile && (
+        <>
+          <FileShareDrawer
+            open={openShareFileDrawer}
+            onClose={() => setOpenShareFileDrawer(false)}
+            fileName={selectedFile.name}
+          />
+          <FileRenameDrawer
+            open={openRenameFileDrawer}
+            initialName={selectedFile.name}
+            onClose={() => setOpenRenameFileDrawer(false)}
+            onSubmit={(newName) => {
+              // TODO: API renommage fichier
+              console.log("Renommer fichier", selectedFile.id, "->", newName);
+              setOpenRenameFileDrawer(false);
+            }}
+          />
+          <FileInfoDrawer
+            open={openInfoFileDrawer}
+            onClose={() => setOpenInfoFileDrawer(false)}
+            file={selectedFile}
+          />
+        </>
       )}
     </div>
   );
