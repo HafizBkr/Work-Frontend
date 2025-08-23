@@ -14,6 +14,8 @@ import interactionPlugin from "@fullcalendar/interaction";
 import frLocale from "@fullcalendar/core/locales/fr";
 import { v4 as uuidv4 } from "uuid";
 import EventDrawer from "./EventDrawer";
+import EventModal from "./EventModal";
+import EditEventDrawer from "./EditEventDrawer";
 import "../../../app/globals.css";
 type CalendarEvent = {
   id: string;
@@ -63,6 +65,16 @@ const Calendar = forwardRef<CalendarHandle, CalendarProps>(
     const [selectedStart, setSelectedStart] = useState<string | null>(null);
     const [selectedEnd, setSelectedEnd] = useState<string | null>(null);
 
+    // Pour la popup d'event
+    const [eventModalOpen, setEventModalOpen] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
+      null,
+    );
+
+    // Pour le drawer d'édition
+    const [editDrawerOpen, setEditDrawerOpen] = useState(false);
+    const [eventToEdit, setEventToEdit] = useState<CalendarEvent | null>(null);
+
     // Handle date click to open drawer - optimized with useCallback
     const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
       setSelectedStart(selectInfo.startStr);
@@ -92,17 +104,18 @@ const Calendar = forwardRef<CalendarHandle, CalendarProps>(
       [],
     );
 
-    // Handle event click with better UX
-    const handleEventClick = useCallback((clickInfo: EventClickArg) => {
-      const desc = clickInfo.event.extendedProps.description || "";
-      const title = clickInfo.event.title;
-
-      const msg = `📅 ${title}\n${desc ? `📝 ${desc}` : "📝 Aucune description"}\n\n⚠️ Voulez-vous supprimer cet événement ?`;
-
-      if (window.confirm(msg)) {
-        setEvents((prev) => prev.filter((e) => e.id !== clickInfo.event.id));
-      }
-    }, []);
+    // Handle event click: ouvrir la popup EventModal
+    const handleEventClick = useCallback(
+      (clickInfo: EventClickArg) => {
+        const eventId = clickInfo.event.id;
+        const found = events.find((e) => e.id === eventId);
+        if (found) {
+          setSelectedEvent(found);
+          setEventModalOpen(true);
+        }
+      },
+      [events],
+    );
 
     // Close drawer handler
     const handleCloseDrawer = useCallback(() => {
@@ -197,6 +210,65 @@ const Calendar = forwardRef<CalendarHandle, CalendarProps>(
           initialEnd={selectedEnd}
           onClose={handleCloseDrawer}
           onAdd={handleAddEvent}
+        />
+        {/* EventModal */}
+        {eventModalOpen && selectedEvent && (
+          <EventModal
+            event={{
+              title: selectedEvent.event_title,
+              description: selectedEvent.event_description,
+              date: new Date(selectedEvent.start_datetime).toLocaleDateString(
+                "fr-FR",
+                {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                },
+              ),
+              time:
+                selectedEvent.start_datetime && selectedEvent.end_datetime
+                  ? `${new Date(selectedEvent.start_datetime).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} - ${new Date(selectedEvent.end_datetime).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`
+                  : "",
+              isOnline: false,
+              participants: [{ name: "Hafiz", avatar: "/avatar.png" }],
+              calendarName: "Calendrier par défaut",
+              color: "#a78bfa",
+            }}
+            onClose={() => setEventModalOpen(false)}
+            onEdit={() => {
+              setEventModalOpen(false);
+              setEventToEdit(selectedEvent);
+              setEditDrawerOpen(true);
+            }}
+            onDelete={() => {
+              setEvents((prev) =>
+                prev.filter((e) => e.id !== selectedEvent.id),
+              );
+              setEventModalOpen(false);
+            }}
+          />
+        )}
+        {/* EditEventDrawer */}
+        <EditEventDrawer
+          open={editDrawerOpen}
+          onClose={() => setEditDrawerOpen(false)}
+          event={eventToEdit}
+          onEdit={(data) => {
+            setEvents((prev) =>
+              prev.map((e) =>
+                e.id === data.id
+                  ? {
+                      ...e,
+                      event_title: data.event_title,
+                      event_description: data.event_description,
+                      start_datetime: data.start_datetime,
+                      end_datetime: data.end_datetime,
+                    }
+                  : e,
+              ),
+            );
+            setEditDrawerOpen(false);
+          }}
         />
       </div>
     );

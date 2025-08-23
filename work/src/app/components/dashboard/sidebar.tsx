@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { UserPopup } from "./userDashDropdown";
 import { useRouter } from "next/navigation";
+import { useSidebar } from "./context/SidebarContext";
 
 interface SidebarProps {
   selectedSection: string;
@@ -13,11 +14,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   onSelectSection,
 }) => {
   const router = useRouter();
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [showUserPopup, setShowUserPopup] = useState(false);
-  const [userStatus, setUserStatus] = useState<"active" | "inactive" | "away">(
-    "active",
-  );
+  const { isCollapsed, toggleSidebar } = useSidebar();
+  const [showUserPopup, setShowUserPopup] = React.useState(false);
+  const [userStatus, setUserStatus] = React.useState<
+    "active" | "inactive" | "away"
+  >("active");
   const popupRef = useRef<HTMLDivElement>(null);
   const userSectionRef = useRef<HTMLDivElement>(null);
 
@@ -28,15 +29,17 @@ const Sidebar: React.FC<SidebarProps> = ({
       href: "/dashboard",
       icon: (
         <svg
-          className="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
+          <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+          <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
         </svg>
       ),
     },
@@ -46,12 +49,19 @@ const Sidebar: React.FC<SidebarProps> = ({
       href: "/dashboard/projects",
       icon: (
         <svg
-          className="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+          <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z" />
+          <path d="M8 10v4" />
+          <path d="M12 10v2" />
+          <path d="M16 10v6" />
         </svg>
       ),
     },
@@ -61,12 +71,16 @@ const Sidebar: React.FC<SidebarProps> = ({
       href: "/dashboard/chat",
       icon: (
         <svg
-          className="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
         </svg>
       ),
     },
@@ -76,16 +90,21 @@ const Sidebar: React.FC<SidebarProps> = ({
       href: "/dashboard/files",
       icon: (
         <svg
-          className="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-          <polyline points="14,2 14,8 20,8" />
-          <line x1="16" y1="13" x2="8" y2="13" />
-          <line x1="16" y1="17" x2="8" y2="17" />
-          <polyline points="10,9 9,9 8,9" />
+          <path d="M10 12v-1" />
+          <path d="M10 18v-2" />
+          <path d="M10 7V6" />
+          <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+          <path d="M15.5 22H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v16a2 2 0 0 0 .274 1.01" />
+          <circle cx="10" cy="20" r="2" />
         </svg>
       ),
     },
@@ -95,15 +114,21 @@ const Sidebar: React.FC<SidebarProps> = ({
       href: "/dashboard/calendar/main",
       icon: (
         <svg
-          className="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
+          <path d="M16 2v4" />
+          <path d="M21 11.75V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7.25" />
+          <path d="m22 22-1.875-1.875" />
+          <path d="M3 10h18" />
+          <path d="M8 2v4" />
+          <circle cx="18" cy="18" r="3" />
         </svg>
       ),
     },
@@ -113,13 +138,21 @@ const Sidebar: React.FC<SidebarProps> = ({
       href: "/dashboard/notes",
       icon: (
         <svg
-          className="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-          <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+          <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" />
+          <path d="M2 6h4" />
+          <path d="M2 10h4" />
+          <path d="M2 14h4" />
+          <path d="M2 18h4" />
+          <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
         </svg>
       ),
     },
@@ -178,9 +211,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   ];
   // Plus besoin de isActiveRoute ni handleMenuClick, tout est géré par selectedSection et onSelectSection
 
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
-  };
+  // toggleSidebar est maintenant fourni par le contexte
 
   const toggleUserPopup = () => {
     setShowUserPopup(!showUserPopup);
@@ -321,18 +352,17 @@ const Sidebar: React.FC<SidebarProps> = ({
             <button
               key={item.id}
               onClick={() => {
-                // UNIQUEMENT la redirection, pas de modification de isCollapsed
                 router.push(item.href);
               }}
               className={`flex items-center transition-all duration-300 cursor-pointer
-                ${isCollapsed ? "justify-center px-0" : "gap-3 px-4"}
-                py-2 rounded-lg text-base font-medium
-                ${
-                  selectedSection === item.id
-                    ? "bg-white border border-gray-200 text-gray-900 shadow"
-                    : "text-gray-500 hover:bg-gray-100"
-                }
-              `}
+                       ${isCollapsed ? "justify-center px-0" : "gap-2 px-4"}
+                       py-2 rounded-lg text-base font-medium
+                       ${
+                         selectedSection === item.id
+                           ? "bg-white border border-gray-200 text-gray-900 shadow"
+                           : "text-gray-500 hover:bg-gray-100"
+                       }
+                     `}
               title={item.label}
             >
               <span
@@ -347,7 +377,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               </span>
               <span
                 className={`transition-all duration-300 whitespace-nowrap
-                  ${isCollapsed ? "opacity-0 w-0 max-w-0 overflow-hidden" : "opacity-100 w-auto max-w-xs ml-2"}
+                  ${isCollapsed ? "opacity-0 w-0 max-w-0 overflow-hidden" : "opacity-100 w-auto max-w-xs"}
                 `}
                 style={{ minWidth: isCollapsed ? 0 : undefined }}
                 title={item.label}

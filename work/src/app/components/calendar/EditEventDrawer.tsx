@@ -1,44 +1,48 @@
 import React, { useState, useEffect } from "react";
 import Drawer from "../ui/Drawer";
 
-interface EventDrawerProps {
+interface EditEventDrawerProps {
   open: boolean;
   onClose: () => void;
-  onAdd: (data: {
+  event: {
+    id: string;
+    event_title: string;
+    event_description?: string;
+    start_datetime: string;
+    end_datetime: string;
+  } | null;
+  onEdit: (data: {
+    id: string;
     event_title: string;
     event_description: string;
     start_datetime: string;
     end_datetime: string;
   }) => void;
-  initialStart?: string | null;
-  initialEnd?: string | null;
 }
 
-const EventDrawer: React.FC<EventDrawerProps> = ({
+const EditEventDrawer: React.FC<EditEventDrawerProps> = ({
   open,
   onClose,
-  onAdd,
-  initialStart,
-  initialEnd,
+  event,
+  onEdit,
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState(initialStart || "");
-  const [endDate, setEndDate] = useState(initialEnd || "");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   useEffect(() => {
-    if (open) {
-      setTitle("");
-      setDescription("");
-      setStartDate(initialStart || "");
-      setEndDate(initialEnd || "");
+    if (open && event) {
+      setTitle(event.event_title || "");
+      setDescription(event.event_description || "");
+      setStartDate(event.start_datetime || "");
+      setEndDate(event.end_datetime || "");
     }
-  }, [open, initialStart, initialEnd]);
+  }, [open, event]);
 
   // Helper to format date for input[type=datetime-local]
   const toLocalInput = (iso: string) => {
     if (!iso) return "";
-    // Remove Z and seconds for input compatibility
     const d = new Date(iso);
     const tzOffset = d.getTimezoneOffset() * 60000;
     const localISO = new Date(d.getTime() - tzOffset)
@@ -56,8 +60,10 @@ const EventDrawer: React.FC<EventDrawerProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!event) return;
     if (!title.trim() || !startDate || !endDate) return;
-    onAdd({
+    onEdit({
+      id: event.id,
       event_title: title.trim(),
       event_description: description.trim(),
       start_datetime: fromLocalInput(startDate),
@@ -73,7 +79,7 @@ const EventDrawer: React.FC<EventDrawerProps> = ({
         autoComplete="off"
       >
         <h2 className="text-xl font-bold mb-4 text-black">
-          Ajouter un événement
+          Modifier l&apos;événement
         </h2>
         <label className="mb-2 text-sm font-medium text-black">
           Titre <span className="text-red-500">*</span>
@@ -132,7 +138,7 @@ const EventDrawer: React.FC<EventDrawerProps> = ({
             className="flex-1 px-4 py-2 rounded bg-black text-white font-semibold "
             disabled={!title.trim() || !startDate || !endDate}
           >
-            Ajouter
+            Enregistrer
           </button>
         </div>
       </form>
@@ -140,4 +146,4 @@ const EventDrawer: React.FC<EventDrawerProps> = ({
   );
 };
 
-export default EventDrawer;
+export default EditEventDrawer;

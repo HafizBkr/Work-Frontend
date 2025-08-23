@@ -1,3 +1,4 @@
+"use client";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 type SidebarContextType = {
@@ -15,7 +16,9 @@ export const SidebarProvider = ({ children }: { children: ReactNode }) => {
   const setCollapsed = (collapsed: boolean) => setIsCollapsed(collapsed);
 
   return (
-    <SidebarContext.Provider value={{ isCollapsed, toggleSidebar, setCollapsed }}>
+    <SidebarContext.Provider
+      value={{ isCollapsed, toggleSidebar, setCollapsed }}
+    >
       {children}
     </SidebarContext.Provider>
   );
