@@ -35,7 +35,7 @@ export default function ChatContent({ conversation }: Props) {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-white h-full overflow-hidden">
+    <div className="flex-1 flex flex-col bg-white h-full overflow-hidden p-8">
       {/* Header */}
       <div className="flex items-center px-4 py-3 border-b border-gray-200">
         <div className="flex items-center">

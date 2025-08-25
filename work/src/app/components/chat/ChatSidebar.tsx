@@ -108,7 +108,7 @@ export default function ChatSidebar({
   return (
     <aside className="w-72  border-r border-gray-200 flex flex-col bg-white h-full flex-shrink-0">
       {/* Header */}
-      <div className="mt-[60px] flex items-center justify-between px-3 py-3 border-b border-gray-100">
+      <div className="mt-[25px] flex items-center justify-between px-3 py-3 border-b border-gray-100">
         <div>
           <h1 className="text-3xl  font-semibold text-gray-900">Inbox</h1>
           <p className="text-xs text-gray-500 mt-0.5">

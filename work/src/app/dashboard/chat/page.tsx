@@ -56,7 +56,7 @@ export default function Page() {
     conversations.find((c) => c.id === selectedId) || conversations[0];
 
   return (
-    <div className="flex flex-1 h-full">
+    <div className="flex  flex-1 h-full">
       <DashboardSidebar selectedSection="chat" onSelectSection={() => {}} />
       <ChatSidebar
         conversations={conversations}
