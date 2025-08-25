@@ -92,7 +92,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 className="w-full flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                 onClick={() => {
                   setShowMenu(false);
-                  alert("Modifier le projet");
+                  // Redirige vers la page projet avec le paramètre settings=informations pour ouvrir la modal sur la bonne section
+                  router.push(
+                    `/dashboard/projects/${project.id}?settings=informations`,
+                  );
                 }}
                 type="button"
               >
