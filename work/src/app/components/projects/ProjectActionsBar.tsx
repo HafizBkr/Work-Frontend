@@ -11,17 +11,6 @@ export default function ProjectActionsBar({
     <div className="flex flex-col items-end gap-2 w-full">
       {/* Ligne 1 : Settings + Créer projet + Recherche */}
       <div className="flex items-center gap-3">
-        <button className="p-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-100">
-          <svg
-            className="w-5 h-5 text-gray-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-          </svg>
-        </button>
         <button
           className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-black to-black text-white font-semibold hover:from-black hover:to-black transition flex items-center gap-2 text-base"
           onClick={onOpenDrawer}
